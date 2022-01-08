@@ -1,59 +1,67 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using Codecool.CodecoolShop.DbContext;
 using Codecool.CodecoolShop.Models;
 
 namespace Codecool.CodecoolShop.Daos.Implementations
 {
     public class ProductDaoMemory : IProductDao
     {
-        private List<Product> data = new List<Product>();
-        private static ProductDaoMemory instance = null;
+        // private List<Product> data = new List<Product>();
+        // private static ProductDaoMemory instance = null;
+        //
+        // private ProductDaoMemory()
+        // {
+        // }
+        //
+        // public static ProductDaoMemory GetInstance()
+        // {
+        //     if (instance == null)
+        //     {
+        //         instance = new ProductDaoMemory();
+        //     }
+        //
+        //     return instance;
+        // }
 
-        private ProductDaoMemory()
+        private readonly AppDbContext _appDbContext;
+
+        public ProductDaoMemory(AppDbContext appDbContext)
         {
+            _appDbContext = appDbContext;
         }
-
-        public static ProductDaoMemory GetInstance()
-        {
-            if (instance == null)
-            {
-                instance = new ProductDaoMemory();
-            }
-
-            return instance;
-        }
-
         public void Add(Product item)
         {
-            item.Id = data.Count + 1;
-            data.Add(item);
+            // item.Id = _appDbContext.Products.Count + 1;
+            _appDbContext.Products.Add(item);
+            _appDbContext.SaveChanges();
         }
 
-        public void Remove(int id)
+        public void Remove(Product item)
         {
-            data.Remove(this.Get(id));
+            _appDbContext.Products.Remove(item);
+            _appDbContext.SaveChanges();
         }
 
         public Product Get(int id)
         {
-            return data.Find(x => x.Id == id);
+            return _appDbContext.Products.FirstOrDefault(x => x.Id == id);
         }
 
         public IEnumerable<Product> GetAll()
         {
-            return data;
+            return _appDbContext.Products;
         }
 
         public IEnumerable<Product> GetBy(Supplier supplier)
         {
-            return data.Where(x => x.Supplier.Id == supplier.Id);
+            return _appDbContext.Products.Where(x => x.Supplier.Id == supplier.Id);
         }
 
         public IEnumerable<Product> GetBy(ProductCategory productCategory)
         {
-            return data.Where(x => x.ProductCategory.Id == productCategory.Id);
+            return _appDbContext.Products.Where(x => x.ProductCategory.Id == productCategory.Id);
         }
+
     }
 }

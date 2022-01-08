@@ -1,0 +1,19 @@
+@model Codecool.CodecoolShop.ViewModels.OrderViewModel
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>title</h2>
+
+<div class="jumbotron">
+
+    <h2 class="display-4">Hello, I'm your order!</h2>
+    <h2 class="display-3">I was made by you on @Model.Order.OrderDate. I costed you @Model.Order.TotalPrice.</h2>
+
+
+    <div class="d-flex flex-row align-items-center mt-3 p-2 bg-white rounded"><button class="btn btn-primary btn-block btn-lg ml-2" type="button" onclick="location.href='@Url.Action("Index", "Product")'" role="button">Go to home page!</button></div>
+
+
+</div>

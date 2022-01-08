@@ -2,31 +2,113 @@
     ViewData["Title"] = "Home Page";
 }
 
-@model List<Codecool.CodecoolShop.Models.Product>
+@using Codecool.CodecoolShop.Util.Extension_Methods
+@model Codecool.CodecoolShop.ViewModels.ProductsIndexViewModel
 
 <div class="container">
-    @foreach (var element in Model)
+    <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+      <div class="btn-group me-2" role="group" aria-label="All products">
+            <button class="btn btn-outline-secondary" type="button" data-toggle="collapse" data-target="#CollapseAllProducts" aria-expanded="true" aria-controls="CollapseAllProducts">All products</button>
+      </div>
+        <div class="btn-group me-2" role="group" aria-label="Filter by categories">
+            @foreach (ProductCategory category in Model.Categories)
+            {
+                <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#CollapseCategory-@category.Id" aria-expanded="false" aria-controls="CollapseCategory-@category.Id">@category.Name.Capitalize()</button>
+            }
+        </div>
+      <div class="btn-group" role="group" aria-label="Filter by suppliers">
+        @foreach (Supplier supplier in Model.Suppliers)
+            {
+                <button class="btn btn-outline-warning" type="button" data-toggle="collapse" data-target="#CollapseSupplier-@supplier.Id" aria-expanded="false" aria-controls="CollapseSupplier-@supplier.Id">@supplier.Name.Capitalize()</button>
+            }
+      </div>
+    </div>
+
+</div>
+<div id="collapsibleAreas">
+<div class="collapse show" id="CollapseAllProducts" data-parent="#collapsibleAreas">
+          @foreach (Product element in Model.Products)
     {
-        <div class="col-lg-3 col-lg-3" style="display: inline-block; max-width: 350px; height: 350px">
+
+        <div class="col-lg-3 col-lg-3" style="display: inline-block; max-width: 350px; max-height: 350px">
             <div class="card">
                 <img src="img/@(element.Name).jpg" style="height: 50%; width: 50%; align-self: center; padding-top: 10px">
 
                 <div class="card-body">
                     <h5 class="card-title text-center">
                         Product
-                        @{ var num = Model.IndexOf(element) + 1;}
-                        @num
+                        @element.Id
                     </h5>
                     <h5 class="card-title">@element.Name</h5>
                     <p class="card-text">@element.Description.</p>
                     <p class="card-text">Category: @element.ProductCategory.Department</p>
-                    <p class="card-text">Supplier: @element.Supplier.Name</p>
+                    <p class="card-text" id="supplier">Supplier: @element.Supplier.Name</p>
                     <p class="card-text text-center"><strong>Price: @element.DefaultPrice.ToString("C2")</strong></p>
-                    <a href="" type="button" class="btn btn-primary" style="float: bottom">Add To Cart</a>
+                    <input type="button" value="Add To Cart" onclick="location.href='@Url.Action("AddToCart", "Cart", new {productId = element.Id} )'" class="btn btn-primary" style="float: bottom"/>
                 </div>
             </div>
         </div>
     }
+    </div>
 
+        @foreach (ProductCategory category in Model.Categories)
+        {
+            <div class="collapse" id="CollapseCategory-@category.Id" data-parent="#collapsibleAreas">
+                @foreach (Product element in Model.ProductsByCategories[category])
+                {
 
+                    <div class="col-lg-3 col-lg-3" style="display: inline-block; max-width: 350px; max-height: 350px">
+                        <div class="card">
+                            <img src="img/@(element.Name).jpg" style="height: 50%; width: 50%; align-self: center; padding-top: 10px">
+
+                            <div class="card-body">
+                                <h5 class="card-title text-center">
+                                    Product
+                                    @element.Id
+                                </h5>
+                                <h5 class="card-title">@element.Name</h5>
+                                <p class="card-text">@element.Description.</p>
+                                <p class="card-text">Category: @element.ProductCategory.Department</p>
+                                <p class="card-text" id="supplier">Supplier: @element.Supplier.Name</p>
+                                <p class="card-text text-center"><strong>Price: @element.DefaultPrice.ToString("C2")</strong></p>
+                                <input type="button" value="Add To Cart" onclick="location.href='@Url.Action("AddToCart", "Cart", new {productId = element.Id} )'" class="btn btn-primary" style="float: bottom"/>
+                            </div>
+                        </div>
+                  </div>
+                }
+            </div>
+        }
+
+        @foreach (Supplier supplier in Model.Suppliers)
+                {
+                    <div class="collapse" id="CollapseSupplier-@supplier.Id" data-parent="#collapsibleAreas">
+                        @foreach (Product element in Model.ProductsBySuppliers[supplier])
+                        {
+
+                            <div class="col-lg-3 col-lg-3" style="display: inline-block; max-width: 350px; max-height: 350px">
+                                <div class="card">
+                                    <img src="img/@(element.Name).jpg" style="height: 50%; width: 50%; align-self: center; padding-top: 10px">
+
+                                    <div class="card-body">
+                                        <h5 class="card-title text-center">
+                                            Product
+                                            @element.Id
+                                        </h5>
+                                        <h5 class="card-title">@element.Name</h5>
+                                        <p class="card-text">@element.Description.</p>
+                                        <p class="card-text">Category: @element.ProductCategory.Department</p>
+                                        <p class="card-text" id="supplier">Supplier: @element.Supplier.Name</p>
+                                        <p class="card-text text-center"><strong>Price: @element.DefaultPrice.ToString("C2")</strong></p>
+                                        <a href="@Url.Action("AddToCart", "Cart", new {productId = element.Id} )" type="button" class="btn btn-primary" style="float: bottom">Add To Cart</a>
+                                        <input type="button" value="Add To Cart" onclick="location.href='@Url.Action("AddToCart", "Cart", new {productId = element.Id} )'" class="btn btn-primary" style="float: bottom"/>
+                                    </div>
+                                </div>
+                          </div>
+                        }
+                    </div>
+                }
 </div>
+
+@* <script> *@
+@* *@
+@* </script> *@
