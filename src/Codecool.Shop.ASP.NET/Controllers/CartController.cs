@@ -1,5 +1,4 @@
 using Codecool.Shop.ASP.NET.Service.Interfaces;
-using Codecool.Shop.ASP.NET.Service.Services;
 using Codecool.Shop.ASP.NET.ViewModels;
 using Codecool.Shop.Domain.Models;
 using Microsoft.AspNetCore.Mvc;

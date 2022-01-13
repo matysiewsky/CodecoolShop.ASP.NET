@@ -1,9 +1,11 @@
 using Codecool.Shop.Domain.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Codecool.Shop.Data.Repositories;
 
-public class AppDbContext: Microsoft.EntityFrameworkCore.DbContext
+public class AppDbContext: IdentityDbContext<IdentityUser>
 {
     public AppDbContext(DbContextOptions<AppDbContext> options): base(options)
     {
@@ -92,5 +94,6 @@ public class AppDbContext: Microsoft.EntityFrameworkCore.DbContext
                 SupplierId = amazon.Id,
             }
         );
+        base.OnModelCreating(modelBuilder);
     }
 }
