@@ -3,7 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30621.155
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Codecool.CodecoolShop", "Codecool.CodecoolShop\Codecool.CodecoolShop.csproj", "{3A1D177E-B0B1-4755-8E0A-84320E63D4AA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Codecool.Shop.ASP.NET", "Codecool.Shop.ASP.NET\Codecool.Shop.ASP.NET.csproj", "{3A1D177E-B0B1-4755-8E0A-84320E63D4AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Codecool.Shop.Domain", "Codecool.Shop.Domain\Codecool.Shop.Domain.csproj", "{EF79151B-CD06-43C4-9243-C7ED9440FF45}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Codecool.Shop.Data", "Codecool.Shop.Data\Codecool.Shop.Data.csproj", "{C1DAC26C-CF5D-4686-A175-0D613E0B3B56}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Util", "Util\Util.csproj", "{003FE66B-0094-470B-A8F2-FDD06164A9D6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +21,18 @@ Global
 		{3A1D177E-B0B1-4755-8E0A-84320E63D4AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A1D177E-B0B1-4755-8E0A-84320E63D4AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A1D177E-B0B1-4755-8E0A-84320E63D4AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF79151B-CD06-43C4-9243-C7ED9440FF45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF79151B-CD06-43C4-9243-C7ED9440FF45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF79151B-CD06-43C4-9243-C7ED9440FF45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF79151B-CD06-43C4-9243-C7ED9440FF45}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1DAC26C-CF5D-4686-A175-0D613E0B3B56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1DAC26C-CF5D-4686-A175-0D613E0B3B56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1DAC26C-CF5D-4686-A175-0D613E0B3B56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1DAC26C-CF5D-4686-A175-0D613E0B3B56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{003FE66B-0094-470B-A8F2-FDD06164A9D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{003FE66B-0094-470B-A8F2-FDD06164A9D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{003FE66B-0094-470B-A8F2-FDD06164A9D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{003FE66B-0094-470B-A8F2-FDD06164A9D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
