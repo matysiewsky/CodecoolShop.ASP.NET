@@ -12,5 +12,8 @@ public class ClientService : IClientService
         => UnitOfWork.Clients.Get(x => x.UserId == userId);
 
     public void AddClient(Client client)
-        => UnitOfWork.Clients.Add(client);
+    {
+        UnitOfWork.Clients.Add(client);
+        UnitOfWork.Save();
+    }
 }

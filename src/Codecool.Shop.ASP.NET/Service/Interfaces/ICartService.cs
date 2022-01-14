@@ -5,7 +5,6 @@ namespace Codecool.Shop.ASP.NET.Service.Interfaces;
 
 public interface ICartService
 {
-
     Cart ReturnNewCart(string userId);
     void AddToCart(string userId, int productId);
     string GetCartId();

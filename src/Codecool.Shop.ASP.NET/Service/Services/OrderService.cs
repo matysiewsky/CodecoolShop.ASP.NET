@@ -43,7 +43,10 @@ public class OrderService : IOrderService
     }
 
     public void AddOrder(Order item)
-        => UnitOfWork.Orders.Add(item);
+    {
+        UnitOfWork.Orders.Add(item);
+        UnitOfWork.Save();
+    }
 
     public void ClearCartAndCartItems(string userId)
     {
@@ -54,11 +57,15 @@ public class OrderService : IOrderService
 
         UnitOfWork.CartItems.RemoveRange(cartItemsToRemove);
         UnitOfWork.Carts.Remove(cartToRemove);
+        UnitOfWork.Save();
     }
 
     public Order GetOrder(string userId)
         => UnitOfWork.Orders.Get(x => x.UserId == userId);
 
     public void Modify(Order orderToUpdate)
-        => UnitOfWork.Orders.Modify(orderToUpdate);
+    {
+        UnitOfWork.Orders.Modify(orderToUpdate);
+        UnitOfWork.Save();
+    }
 }

@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Codecool.Shop.ASP.NET.Service.Interfaces;
@@ -12,34 +11,32 @@ namespace Codecool.Shop.ASP.NET.Service.Services;
 public class CartService : ICartService
 {
     public IUnitOfWork UnitOfWork { private get; init; }
-    public IHttpContextAccessor HttpContextAccessor { get; init; }
+    public IHttpContextAccessor HttpContextAccessor { private get; init; }
 
     private const string CartSessionKey = "CartId";
 
     public Cart ReturnNewCart(string userId)
     {
-        UnitOfWork.Carts.Add(new Cart
-        {
-            UserId = userId,
-        });
+        Cart newCart = new Cart { UserId = userId };
 
-        return UnitOfWork.Carts.Get(x => x.UserId == userId);
+        UnitOfWork.Carts.Add(newCart);
+        UnitOfWork.Save();
+
+        return newCart;
     }
 
     public void AddToCart(string userId, int productId)
     {
-
         Product productToAdd = UnitOfWork.Products.Get(x => x.Id == productId);
         Cart cart = UnitOfWork.Carts.Get(x => x.UserId == userId);
 
         if (cart == null)
         {
-            UnitOfWork.Carts.Add(new Cart
-            {
-                UserId = userId,
-            });
+            Cart newCart = new Cart { UserId = userId };
+            cart = newCart;
 
-            cart = UnitOfWork.Carts.Get(x => x.UserId == userId);
+            UnitOfWork.Carts.Add(newCart);
+            UnitOfWork.Save();
         }
 
         IEnumerable<CartItem> shoppingCartItems = UnitOfWork.CartItems.GetRange
@@ -66,15 +63,17 @@ public class CartService : ICartService
             };
 
             UnitOfWork.CartItems.Add(cartItem);
+            UnitOfWork.Save();
         }
         else
         {
             UnitOfWork.CartItems.Modify(cartItem);
+            UnitOfWork.Save();
         }
     }
 
     public string GetCartId()
-        => HttpContextAccessor.HttpContext.Session.Id;
+        => HttpContextAccessor.HttpContext!.Session.Id;
 
     public Cart GetCart(int id)
         => UnitOfWork.Carts.Get(x=> x.Id == id);
@@ -95,9 +94,11 @@ public class CartService : ICartService
     public void ClearCartItem(CartItem item)
     {
         UnitOfWork.CartItems.Remove(item);
+        UnitOfWork.Save();
     }
     public void Modify(CartItem orderToUpdate)
     {
         UnitOfWork.CartItems.Modify(orderToUpdate);
+        UnitOfWork.Save();
     }
 }

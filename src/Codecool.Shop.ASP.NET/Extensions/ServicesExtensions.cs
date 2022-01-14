@@ -2,8 +2,6 @@ using System;
 using Codecool.Shop.ASP.NET.Service.Interfaces;
 using Codecool.Shop.ASP.NET.Service.Services;
 using Codecool.Shop.Data.Infrastructure;
-using Codecool.Shop.Data.Infrastructure.Repository;
-using Codecool.Shop.Domain.Models;
 using Codecool.Shop.Domain.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -44,8 +42,9 @@ public static class ServicesExtensions
 
     public static void ConfigureDefaultIdentity(this IServiceCollection services)
     {
-        services.AddDefaultIdentity<IdentityUser>()
-            .AddEntityFrameworkStores<ShopDbContext>();
+        services.AddDefaultIdentity<IdentityUser>
+                (x => x.User.RequireUniqueEmail = true)
+                .AddEntityFrameworkStores<ShopDbContext>();
     }
 
     public static void ConfigureUnitOfWork(this IServiceCollection services)
@@ -69,7 +68,8 @@ public static class ServicesExtensions
 
         services.AddScoped<ICartService>(s => new CartService
         {
-            UnitOfWork = s.GetRequiredService<IUnitOfWork>()
+            UnitOfWork = s.GetRequiredService<IUnitOfWork>(),
+            HttpContextAccessor = s.GetRequiredService<IHttpContextAccessor>()
         });
         services.AddScoped<IClientService, ClientService>(s => new ClientService
         {

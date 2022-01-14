@@ -11,4 +11,5 @@ public interface IUnitOfWork : IDisposable
     IGenericDbRepository<CartItem> CartItems { get; }
     IGenericDbRepository<Order> Orders { get; }
     IGenericDbRepository<Client> Clients { get; }
+    void Save();
 }
