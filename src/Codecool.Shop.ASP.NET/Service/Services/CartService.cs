@@ -13,8 +13,6 @@ public class CartService : ICartService
     public IUnitOfWork UnitOfWork { private get; init; }
     public IHttpContextAccessor HttpContextAccessor { private get; init; }
 
-    private const string CartSessionKey = "CartId";
-
     public Cart ReturnNewCart(string userId)
     {
         Cart newCart = new Cart { UserId = userId };

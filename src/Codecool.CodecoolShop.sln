@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Codecool.Shop.Data", "Codec
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Util", "Util\Util.csproj", "{003FE66B-0094-470B-A8F2-FDD06164A9D6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NUnit.Testing", "NUnit.Testing\NUnit.Testing.csproj", "{901C2383-4395-4DD7-B783-039A941A688D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{003FE66B-0094-470B-A8F2-FDD06164A9D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{003FE66B-0094-470B-A8F2-FDD06164A9D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{003FE66B-0094-470B-A8F2-FDD06164A9D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{901C2383-4395-4DD7-B783-039A941A688D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{901C2383-4395-4DD7-B783-039A941A688D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{901C2383-4395-4DD7-B783-039A941A688D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{901C2383-4395-4DD7-B783-039A941A688D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

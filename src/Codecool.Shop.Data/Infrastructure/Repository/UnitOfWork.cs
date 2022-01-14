@@ -1,27 +1,27 @@
-using Codecool.Shop.Data.Infrastructure.Repository;
 using Codecool.Shop.Domain.Models;
 using Codecool.Shop.Domain.Repositories.Interfaces;
+using static Codecool.Shop.Data.Extensions.GenericDbRepositoryExtensions;
 
-namespace Codecool.Shop.Data.Infrastructure;
+namespace Codecool.Shop.Data.Infrastructure.Repository;
 
 public class UnitOfWork: IUnitOfWork
 {
     public ShopDbContext DbContext { private get; init; }
 
     public IGenericDbRepository<ProductCategory> Categories
-        => new GenericDbRepository<ProductCategory>();
+        => GenericDbRepoFactory<ProductCategory>(DbContext);
     public IGenericDbRepository<Product> Products
-        => new GenericDbRepository<Product>();
+        => GenericDbRepoFactory<Product>(DbContext);
     public IGenericDbRepository<Supplier> Suppliers
-        => new GenericDbRepository<Supplier>();
+        => GenericDbRepoFactory<Supplier>(DbContext);
     public IGenericDbRepository<Cart> Carts
-        => new GenericDbRepository<Cart>();
+        => GenericDbRepoFactory<Cart>(DbContext);
     public IGenericDbRepository<CartItem> CartItems
-        => new GenericDbRepository<CartItem>();
+        => GenericDbRepoFactory<CartItem>(DbContext);
     public IGenericDbRepository<Order> Orders
-        => new GenericDbRepository<Order>();
+        => GenericDbRepoFactory<Order>(DbContext);
     public IGenericDbRepository<Client> Clients
-        => new GenericDbRepository<Client>();
+        => GenericDbRepoFactory<Client>(DbContext);
 
     public void Dispose()
     {

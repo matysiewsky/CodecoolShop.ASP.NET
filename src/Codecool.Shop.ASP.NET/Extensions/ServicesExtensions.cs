@@ -2,6 +2,7 @@ using System;
 using Codecool.Shop.ASP.NET.Service.Interfaces;
 using Codecool.Shop.ASP.NET.Service.Services;
 using Codecool.Shop.Data.Infrastructure;
+using Codecool.Shop.Data.Infrastructure.Repository;
 using Codecool.Shop.Domain.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;

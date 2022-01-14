@@ -12,7 +12,7 @@ public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
     private readonly IProductService _productService;
-    private ISupplierService _supplierService;
+    private readonly ISupplierService _supplierService;
     private readonly ICartService _cartService;
 
     public HomeController(ILogger<HomeController> logger, ISupplierService supplierService, IProductService productService, ICartService cartService)
