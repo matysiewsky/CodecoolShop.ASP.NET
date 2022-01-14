@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Codecool.Shop.Data.Migrations
 {
-    [DbContext(typeof(AppDbContext))]
+    [DbContext(typeof(ShopDbContext))]
     [Migration("20220111175153_InitialMigration")]
     partial class InitialMigration
     {

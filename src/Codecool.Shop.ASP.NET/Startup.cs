@@ -23,6 +23,8 @@ public class Startup
 
         services.ConfigureSession();
 
+        services.ConfigureDefaultIdentity();
+
         services.AddHttpContextAccessor();
 
         services.ConfigureRepositories();
@@ -30,6 +32,8 @@ public class Startup
         services.ConfigureAppServices();
 
         services.AddControllersWithViews();
+
+        services.AddRazorPages();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -63,6 +67,7 @@ public class Startup
             endpoints.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Products}/{id?}");
+            endpoints.MapRazorPages();
         });
 
     }
