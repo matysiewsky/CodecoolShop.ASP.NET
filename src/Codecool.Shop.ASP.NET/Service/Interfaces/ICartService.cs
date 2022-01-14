@@ -15,7 +15,6 @@ public interface ICartService
     IEnumerable<CartItem> GetCartItemsByShoppingCartId(int shoppingCartId);
     public int GetCartItemsCount(string userId);
     public void ClearCartItem(CartItem item);
-    void ClearCartAndCartItems(Cart cartToClear);
     public void Modify(CartItem orderToUpdate);
 
 }

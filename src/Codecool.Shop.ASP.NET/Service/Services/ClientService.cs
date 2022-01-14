@@ -6,11 +6,11 @@ namespace Codecool.Shop.ASP.NET.Service.Services;
 
 public class ClientService : IClientService
 {
-    public IGenericDbRepository<Client> ClientRepository { get; init; }
+    public IUnitOfWork UnitOfWork { private get; init; }
 
     public Client GetClient(string userId)
-        => ClientRepository.Get(x => x.UserId == userId);
+        => UnitOfWork.Clients.Get(x => x.UserId == userId);
 
     public void AddClient(Client client)
-        => ClientRepository.Add(client);
+        => UnitOfWork.Clients.Add(client);
 }

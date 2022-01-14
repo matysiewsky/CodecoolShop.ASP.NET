@@ -2,7 +2,7 @@ using System.Linq.Expressions;
 using Codecool.Shop.Domain.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace Codecool.Shop.Data.Repositories.Repositories;
+namespace Codecool.Shop.Data.Infrastructure.Repository;
 
 public class GenericDbRepository<TEntity>: IGenericDbRepository<TEntity> where TEntity: class
 {

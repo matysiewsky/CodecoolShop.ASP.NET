@@ -8,12 +8,10 @@ namespace Codecool.Shop.ASP.NET.Service.Services;
 
 public class OrderService : IOrderService
 {
-    public IGenericDbRepository<Order> OrderRepository { get; init; }
-    public ICartService CartService { get; init; }
-    public IProductService ProductService { get; init; }
+    public IUnitOfWork UnitOfWork { private get; init; }
 
     public Cart GetShoppingCartByUserId(string userId)
-        => CartService.GetCartByUserId(userId);
+        => UnitOfWork.Carts.Get(x => x.UserId == userId);
 
     public IEnumerable<int> GetProductsIdsByUserId(string userId)
         => GetCartItemsByUserId(userId).Select(cartItem => cartItem.ProductId);
@@ -29,7 +27,7 @@ public class OrderService : IOrderService
         Cart cart = GetShoppingCartByUserId(userId);
 
         IEnumerable<CartItem> cartItems =
-            CartService.GetCartItemsByShoppingCartId(GetShoppingCartByUserId(userId).Id);
+            UnitOfWork.CartItems.GetRange(x => x.CartId == cart.Id);
 
         return GetProductsForImportedCartItems(cartItems);
     }
@@ -38,24 +36,29 @@ public class OrderService : IOrderService
     {
         foreach (CartItem cartItem in cartItems)
         {
-            cartItem.Product = ProductService.GetProduct(cartItem.ProductId);
+            cartItem.Product = UnitOfWork.Products.Get(x => x.Id == cartItem.ProductId);
         }
 
         return cartItems;
     }
 
     public void AddOrder(Order item)
-        => OrderRepository.Add(item);
+        => UnitOfWork.Orders.Add(item);
 
     public void ClearCartAndCartItems(string userId)
     {
-        Cart cartToClear = CartService.GetCartByUserId(userId);
-        CartService.ClearCartAndCartItems(cartToClear);
+        Cart cartToRemove = UnitOfWork.Carts.Get
+            (x => x.UserId == userId);
+        IEnumerable<CartItem> cartItemsToRemove = UnitOfWork.CartItems.GetRange
+            (x => x.CartId == cartToRemove.Id);
+
+        UnitOfWork.CartItems.RemoveRange(cartItemsToRemove);
+        UnitOfWork.Carts.Remove(cartToRemove);
     }
 
     public Order GetOrder(string userId)
-        => OrderRepository.Get(x => x.UserId == userId);
+        => UnitOfWork.Orders.Get(x => x.UserId == userId);
 
     public void Modify(Order orderToUpdate)
-        => OrderRepository.Modify(orderToUpdate);
+        => UnitOfWork.Orders.Modify(orderToUpdate);
 }

@@ -27,7 +27,7 @@ public class Startup
 
         services.AddHttpContextAccessor();
 
-        services.ConfigureRepositories();
+        services.ConfigureUnitOfWork();
 
         services.ConfigureAppServices();
 

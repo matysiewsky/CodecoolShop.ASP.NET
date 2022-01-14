@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Codecool.Shop.Data.Repositories;
+namespace Codecool.Shop.Data.Infrastructure;
 
 public class ShopDbContext: IdentityDbContext<IdentityUser>
 {

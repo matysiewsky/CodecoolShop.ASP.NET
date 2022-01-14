@@ -11,45 +11,44 @@ namespace Codecool.Shop.ASP.NET.Service.Services;
 
 public class CartService : ICartService
 {
-    public IProductService ProductService { get; init; }
-    public IGenericDbRepository<Cart> CartRepository { get; init; }
-    public IGenericDbRepository<CartItem> CartItemRepository { get; init; }
+    public IUnitOfWork UnitOfWork { private get; init; }
     public IHttpContextAccessor HttpContextAccessor { get; init; }
 
     private const string CartSessionKey = "CartId";
 
     public Cart ReturnNewCart(string userId)
     {
-        CartRepository.Add(new Cart
+        UnitOfWork.Carts.Add(new Cart
         {
             UserId = userId,
         });
 
-        return CartRepository.Get(x => x.UserId == userId);
+        return UnitOfWork.Carts.Get(x => x.UserId == userId);
     }
 
     public void AddToCart(string userId, int productId)
     {
 
-        Product productToAdd = ProductService.GetProduct(productId);
-        Cart cart = CartRepository.Get(x => x.UserId == userId);
+        Product productToAdd = UnitOfWork.Products.Get(x => x.Id == productId);
+        Cart cart = UnitOfWork.Carts.Get(x => x.UserId == userId);
 
         if (cart == null)
         {
-            CartRepository.Add(new Cart
+            UnitOfWork.Carts.Add(new Cart
             {
                 UserId = userId,
             });
 
-            cart = CartRepository.Get(x => x.UserId == userId);
+            cart = UnitOfWork.Carts.Get(x => x.UserId == userId);
         }
 
-        IEnumerable<CartItem> shoppingCartItems = CartItemRepository.GetRange
+        IEnumerable<CartItem> shoppingCartItems = UnitOfWork.CartItems.GetRange
             (x=> x.CartId == cart.Id);
 
         foreach (CartItem shoppingCartItem in shoppingCartItems)
         {
-            shoppingCartItem.Product = ProductService.GetProduct(shoppingCartItem.ProductId);
+            shoppingCartItem.Product = UnitOfWork.Products.Get
+                (x => x.Id == shoppingCartItem.ProductId);
         }
 
         CartItem cartItem = shoppingCartItems.SingleOrDefault(
@@ -66,12 +65,11 @@ public class CartService : ICartService
                 ProductId = productToAdd.Id,
             };
 
-            CartItemRepository.Add(cartItem);
+            UnitOfWork.CartItems.Add(cartItem);
         }
         else
         {
-
-            CartItemRepository.Modify(cartItem);
+            UnitOfWork.CartItems.Modify(cartItem);
         }
     }
 
@@ -79,14 +77,14 @@ public class CartService : ICartService
         => HttpContextAccessor.HttpContext.Session.Id;
 
     public Cart GetCart(int id)
-        => CartRepository.Get(x=> x.Id == id);
+        => UnitOfWork.Carts.Get(x=> x.Id == id);
     public CartItem GetCartItem(int id)
-        => CartItemRepository.Get(x => x.Id == id);
+        => UnitOfWork.CartItems.Get(x => x.Id == id);
     public Cart GetCartByUserId(string userId)
-        => CartRepository.Get(x => x.UserId == userId);
+        => UnitOfWork.Carts.Get(x => x.UserId == userId);
 
     public IEnumerable<CartItem> GetCartItemsByShoppingCartId(int shoppingCartId)
-        => CartItemRepository.GetRange(x => x.CartId == shoppingCartId);
+        => UnitOfWork.CartItems.GetRange(x => x.CartId == shoppingCartId);
 
     public int GetCartItemsCount(string userId)
     {
@@ -94,19 +92,12 @@ public class CartService : ICartService
         return GetCartItemsByShoppingCartId(id).Count();
     }
 
-    public void ClearCartAndCartItems(Cart cartToClear)
-    {
-        IEnumerable<CartItem> cartItemsToClear = GetCartItemsByShoppingCartId(cartToClear.Id);
-        CartItemRepository.RemoveRange(cartItemsToClear);
-        CartRepository.Remove(cartToClear);
-    }
-
     public void ClearCartItem(CartItem item)
     {
-        CartItemRepository.Remove(item);
+        UnitOfWork.CartItems.Remove(item);
     }
     public void Modify(CartItem orderToUpdate)
     {
-        CartItemRepository.Modify(orderToUpdate);
+        UnitOfWork.CartItems.Modify(orderToUpdate);
     }
 }

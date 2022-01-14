@@ -8,39 +8,37 @@ namespace Codecool.Shop.ASP.NET.Service.Services;
 
 public class ProductService : IProductService
 {
-    public IGenericDbRepository<Product> ProductRepository { get; init; }
-    public IGenericDbRepository<ProductCategory> ProductCategoryRepository { get; init; }
-    public ISupplierService SupplierService { get; init; }
+    public IUnitOfWork UnitOfWork { private get; init; }
 
     public ProductCategory GetProductCategory(int categoryId)
-        => ProductCategoryRepository.Get(x => x.Id == categoryId);
+        => UnitOfWork.Categories.Get(x => x.Id == categoryId);
 
     public IEnumerable<Product> GetAllProducts()
-        => ProductRepository.GetAll();
+        => UnitOfWork.Products.GetAll();
 
     public IEnumerable<ProductCategory> GetAllProductCategories()
-        => ProductCategoryRepository.GetAll();
+        => UnitOfWork.Categories.GetAll();
 
     public IEnumerable<Product> GetProductsForCategory(int categoryId)
     {
         ProductCategory category
-            = ProductCategoryRepository.Get(x => x.Id == categoryId);
+            = UnitOfWork.Categories.Get(x => x.Id == categoryId);
 
         return (category != null) ?
             // ReSharper disable once PossibleUnintendedReferenceComparison
-            ProductRepository.GetRange(x => x.ProductCategory == category)
+            UnitOfWork.Products.GetRange(x => x.ProductCategory == category)
             : Enumerable.Empty<Product>();
     }
 
     public IEnumerable<Product> GetProductsForSupplier(int supplierId)
     {
-        Supplier supplier = SupplierService.GetSupplier(supplierId);
+        Supplier supplier = UnitOfWork.Suppliers.Get(x => x.Id == supplierId);
 
         return (supplier != null) ?
-            ProductRepository.GetRange(x => x.Supplier == supplier)
+            UnitOfWork.Products.GetRange(x => x.Supplier == supplier)
             : Enumerable.Empty<Product>();
     }
 
     public Product GetProduct(int productId)
-        => ProductRepository.Get(x => x.Id == (productId));
+        => UnitOfWork.Products.Get(x => x.Id == (productId));
 }
