@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Codecool.Shop.ASP.NET.Service.Interfaces;
@@ -11,27 +12,40 @@ namespace Codecool.Shop.ASP.NET.Service.Services;
 public class CartService : ICartService
 {
     public IProductService ProductService { get; init; }
-    public ICartRepository CartRepository { get; init; }
-    public ICartItemRepository CartItemRepository { get; init; }
+    public IGenericDbRepository<Cart> CartRepository { get; init; }
+    public IGenericDbRepository<CartItem> CartItemRepository { get; init; }
     public IHttpContextAccessor HttpContextAccessor { get; init; }
 
     private const string CartSessionKey = "CartId";
 
-    public Cart ReturnNewCart(string userId) =>
+    public Cart ReturnNewCart(string userId)
+    {
         CartRepository.Add(new Cart
         {
             UserId = userId,
         });
 
+        return CartRepository.Get(x => x.UserId == userId);
+    }
+
     public void AddToCart(string userId, int productId)
     {
 
         Product productToAdd = ProductService.GetProduct(productId);
-        Cart cart = CartRepository.Get(userId) ?? CartRepository.Add(new Cart
+        Cart cart = CartRepository.Get(x => x.UserId == userId);
+
+        if (cart == null)
         {
-            UserId = userId,
-        });
-        IEnumerable<CartItem> shoppingCartItems = CartItemRepository.GetAll(cart.Id);
+            CartRepository.Add(new Cart
+            {
+                UserId = userId,
+            });
+
+            cart = CartRepository.Get(x => x.UserId == userId);
+        }
+
+        IEnumerable<CartItem> shoppingCartItems = CartItemRepository.GetRange
+            (x=> x.CartId == cart.Id);
 
         foreach (CartItem shoppingCartItem in shoppingCartItems)
         {
@@ -57,21 +71,22 @@ public class CartService : ICartService
         else
         {
 
-            CartItemRepository.Update(cartItem.Id);
+            CartItemRepository.Modify(cartItem);
         }
     }
 
     public string GetCartId()
-    {
-        return HttpContextAccessor.HttpContext.Session.Id;
-    }
+        => HttpContextAccessor.HttpContext.Session.Id;
 
-    public Cart GetCart(int id) => CartRepository.Get(id);
-    public CartItem GetCartItem(int id) => CartItemRepository.Get(id);
-    public Cart GetCartByUserId(string userId) => CartRepository.Get(userId);
+    public Cart GetCart(int id)
+        => CartRepository.Get(x=> x.Id == id);
+    public CartItem GetCartItem(int id)
+        => CartItemRepository.Get(x => x.Id == id);
+    public Cart GetCartByUserId(string userId)
+        => CartRepository.Get(x => x.UserId == userId);
 
-    public IEnumerable<CartItem> GetCartItemsByShoppingCartId(int shoppingCartId) =>
-        CartItemRepository.GetAll(shoppingCartId);
+    public IEnumerable<CartItem> GetCartItemsByShoppingCartId(int shoppingCartId)
+        => CartItemRepository.GetRange(x => x.CartId == shoppingCartId);
 
     public int GetCartItemsCount(string userId)
     {
@@ -81,7 +96,8 @@ public class CartService : ICartService
 
     public void ClearCartAndCartItems(Cart cartToClear)
     {
-        CartItemRepository.RemoveCartItems(cartToClear.Id);
+        IEnumerable<CartItem> cartItemsToClear = GetCartItemsByShoppingCartId(cartToClear.Id);
+        CartItemRepository.RemoveRange(cartItemsToClear);
         CartRepository.Remove(cartToClear);
     }
 

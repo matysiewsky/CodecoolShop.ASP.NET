@@ -6,33 +6,30 @@ namespace Codecool.Shop.Data.Repositories.Repositories;
 
 public class GenericDbRepository<TEntity>: IGenericDbRepository<TEntity> where TEntity: class
 {
-    private readonly ShopDbContext _dbContext;
-    private readonly DbSet<TEntity> _dbSet;
-
-    public GenericDbRepository(ShopDbContext dbContext)
-    {
-        _dbContext = dbContext;
-        _dbSet = dbContext.Set<TEntity>();
-    }
+    public ShopDbContext DbContext { private get; init; }
+    public DbSet<TEntity> DbSet { private get; init; }
 
     public TEntity Get(Expression<Func<TEntity, bool>> filterExpression)
-        => _dbSet.FirstOrDefault(filterExpression);
+        => DbSet.FirstOrDefault(filterExpression);
 
     public IEnumerable<TEntity> GetRange(Expression<Func<TEntity, bool>> filterExpression)
-        => _dbSet.Where(filterExpression);
+        => DbSet.Where(filterExpression);
+
+    public IEnumerable<TEntity> GetAll()
+        => DbSet;
 
     public void Add(TEntity entity)
-        => _dbSet.Add(entity);
+        => DbSet.Add(entity);
 
     public void Remove(TEntity entity)
-        => _dbSet.Remove(entity);
+        => DbSet.Remove(entity);
 
     public void RemoveRange(IEnumerable<TEntity> entities)
-        => _dbSet.RemoveRange(entities);
+        => DbSet.RemoveRange(entities);
 
     public void Modify(TEntity entity)
     {
-        _dbSet.Attach(entity);
-        _dbContext.Entry(entity).State = EntityState.Modified;
+        DbSet.Attach(entity);
+        DbContext.Entry(entity).State = EntityState.Modified;
     }
 }

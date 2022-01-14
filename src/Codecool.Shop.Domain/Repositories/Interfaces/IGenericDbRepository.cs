@@ -2,12 +2,13 @@ using System.Linq.Expressions;
 
 namespace Codecool.Shop.Domain.Repositories.Interfaces;
 
-public interface IGenericDbRepository<T> where T : class
+public interface IGenericDbRepository<TEntity> where TEntity : class
 {
-    T Get (Expression<Func<T, bool>> filterExpression);
-    IEnumerable<T> GetRange(Expression<Func<T, bool>> filterExpression);
-    void Add(T item);
-    void Remove (T item);
-    void RemoveRange(IEnumerable<T> items);
-    void Modify(T item);
+    TEntity Get (Expression<Func<TEntity, bool>> filterExpression);
+    IEnumerable<TEntity> GetRange(Expression<Func<TEntity, bool>> filterExpression);
+    IEnumerable<TEntity> GetAll();
+    void Add(TEntity item);
+    void Remove (TEntity item);
+    void RemoveRange(IEnumerable<TEntity> items);
+    void Modify(TEntity item);
 }

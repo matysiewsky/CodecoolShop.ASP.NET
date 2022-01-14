@@ -7,16 +7,10 @@ namespace Codecool.Shop.ASP.NET.Service.Services;
 
 public class SupplierService : ISupplierService
 {
-    public ISupplierRepository SupplierRepository { get; init; }
+    public IGenericDbRepository<Supplier> SupplierRepository { get; init; }
 
     public Supplier GetSupplier(int id)
-    {
-        return SupplierRepository.Get(id);
-    }
+        => SupplierRepository.Get(x => x.Id == id);
     public IEnumerable<Supplier> GetAllSuppliers()
-    {
-        return SupplierRepository.GetAll();
-    }
-
-
+        => SupplierRepository.GetAll();
 }

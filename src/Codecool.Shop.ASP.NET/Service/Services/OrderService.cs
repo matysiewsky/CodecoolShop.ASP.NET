@@ -8,18 +8,20 @@ namespace Codecool.Shop.ASP.NET.Service.Services;
 
 public class OrderService : IOrderService
 {
-    public IOrderRepository OrderRepository { get; init; }
+    public IGenericDbRepository<Order> OrderRepository { get; init; }
     public ICartService CartService { get; init; }
     public IProductService ProductService { get; init; }
 
-    public Cart GetShoppingCartByUserId(string userId) => CartService.GetCartByUserId(userId);
+    public Cart GetShoppingCartByUserId(string userId)
+        => CartService.GetCartByUserId(userId);
 
-    public IEnumerable<int> GetProductsIdsByUserId(string userId) =>
-        GetCartItemsByUserId(userId).Select(cartItem => cartItem.ProductId);
+    public IEnumerable<int> GetProductsIdsByUserId(string userId)
+        => GetCartItemsByUserId(userId).Select(cartItem => cartItem.ProductId);
 
 
-    public double GetTotalPrice(string userId) =>
-        GetCartItemsByUserId(userId).Select(cartItem => cartItem.Product.DefaultPrice * cartItem.Quantity).Sum();
+    public double GetTotalPrice(string userId)
+        => GetCartItemsByUserId(userId).Select
+            (cartItem => cartItem.Product.DefaultPrice * cartItem.Quantity).Sum();
 
 
     public IEnumerable<CartItem> GetCartItemsByUserId(string userId)
@@ -43,9 +45,7 @@ public class OrderService : IOrderService
     }
 
     public void AddOrder(Order item)
-    {
-        OrderRepository.Add(item);
-    }
+        => OrderRepository.Add(item);
 
     public void ClearCartAndCartItems(string userId)
     {
@@ -54,13 +54,8 @@ public class OrderService : IOrderService
     }
 
     public Order GetOrder(string userId)
-    {
-        return OrderRepository.GetOrder(userId);
-    }
+        => OrderRepository.Get(x => x.UserId == userId);
 
     public void Modify(Order orderToUpdate)
-    {
-        OrderRepository.Modify(orderToUpdate);
-    }
-
+        => OrderRepository.Modify(orderToUpdate);
 }

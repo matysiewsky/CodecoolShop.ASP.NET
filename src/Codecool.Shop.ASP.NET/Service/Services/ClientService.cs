@@ -6,9 +6,11 @@ namespace Codecool.Shop.ASP.NET.Service.Services;
 
 public class ClientService : IClientService
 {
-    public IClientRepository ClientRepository { get; init; }
+    public IGenericDbRepository<Client> ClientRepository { get; init; }
 
-    public Client GetClient(string userId) => ClientRepository.Get(userId);
+    public Client GetClient(string userId)
+        => ClientRepository.Get(x => x.UserId == userId);
 
-    public void AddClient(Client client) => ClientRepository.Add(client);
+    public void AddClient(Client client)
+        => ClientRepository.Add(client);
 }
