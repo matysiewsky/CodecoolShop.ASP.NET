@@ -5,23 +5,23 @@ namespace Codecool.Shop.Data.Repositories.Repositories;
 
 public class SupplierDbRepository : ISupplierRepository
 {
-    public AppDbContext AppDbContext { get; init; }
+    public ShopDbContext ShopDbContext { get; init; }
 
     public Supplier Add(Supplier item)
     {
-        AppDbContext.Suppliers.Add(item);
-        AppDbContext.SaveChanges();
+        ShopDbContext.Suppliers.Add(item);
+        ShopDbContext.SaveChanges();
 
         return item;
     }
 
     public void Remove(Supplier item)
     {
-        AppDbContext.Suppliers.Remove(item);
-        AppDbContext.SaveChanges();
+        ShopDbContext.Suppliers.Remove(item);
+        ShopDbContext.SaveChanges();
     }
 
-    public Supplier Get(int id) => AppDbContext.Suppliers.FirstOrDefault(x => x.Id == id);
+    public Supplier Get(int id) => ShopDbContext.Suppliers.FirstOrDefault(x => x.Id == id);
 
-    public IEnumerable<Supplier> GetAll() => AppDbContext.Suppliers;
+    public IEnumerable<Supplier> GetAll() => ShopDbContext.Suppliers;
 }

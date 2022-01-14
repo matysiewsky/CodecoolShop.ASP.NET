@@ -5,29 +5,29 @@ namespace Codecool.Shop.Data.Repositories.Repositories;
 
 public class ProductDbRepository : IProductRepository
 {
-    public AppDbContext AppDbContext { get; init; }
+    public ShopDbContext ShopDbContext { get; init; }
 
     public Product Add(Product item)
     {
-        AppDbContext.Products.Add(item);
-        AppDbContext.SaveChanges();
+        ShopDbContext.Products.Add(item);
+        ShopDbContext.SaveChanges();
 
         return item;
     }
 
     public void Remove(Product item)
     {
-        AppDbContext.Products.Remove(item);
-        AppDbContext.SaveChanges();
+        ShopDbContext.Products.Remove(item);
+        ShopDbContext.SaveChanges();
     }
 
-    public Product Get(int id) => AppDbContext.Products.FirstOrDefault(x => x.Id == id);
+    public Product Get(int id) => ShopDbContext.Products.FirstOrDefault(x => x.Id == id);
 
-    public IEnumerable<Product> GetAll() => AppDbContext.Products;
+    public IEnumerable<Product> GetAll() => ShopDbContext.Products;
 
     public IEnumerable<Product> GetAllBy(Supplier supplier) =>
-        AppDbContext.Products.Where(x => x.Supplier.Id == supplier.Id);
+        ShopDbContext.Products.Where(x => x.Supplier.Id == supplier.Id);
 
     public IEnumerable<Product> GetAllBy(ProductCategory productCategory) =>
-        AppDbContext.Products.Where(x => x.ProductCategory.Id == productCategory.Id);
+        ShopDbContext.Products.Where(x => x.ProductCategory.Id == productCategory.Id);
 }

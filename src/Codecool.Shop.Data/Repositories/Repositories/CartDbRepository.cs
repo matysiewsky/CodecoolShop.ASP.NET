@@ -5,25 +5,25 @@ namespace Codecool.Shop.Data.Repositories.Repositories;
 
 public class CartDbRepository: ICartRepository
 {
-    public AppDbContext AppDbContext { get; init; }
+    public ShopDbContext ShopDbContext { get; init; }
 
     public Cart Add(Cart item)
     {
-        AppDbContext.Carts.Add(item);
-        AppDbContext.SaveChanges();
+        ShopDbContext.Carts.Add(item);
+        ShopDbContext.SaveChanges();
         return item;
     }
 
     public void Remove(Cart item)
     {
-        AppDbContext.Carts.Remove(item);
-        AppDbContext.SaveChanges();
+        ShopDbContext.Carts.Remove(item);
+        ShopDbContext.SaveChanges();
     }
 
-    public Cart Get(int id) => AppDbContext.Carts.FirstOrDefault(x => x.Id == id);
+    public Cart Get(int id) => ShopDbContext.Carts.FirstOrDefault(x => x.Id == id);
 
     public Cart Get(string userId) =>
-        AppDbContext.Carts.FirstOrDefault(x => x.UserId == userId);
+        ShopDbContext.Carts.FirstOrDefault(x => x.UserId == userId);
 
-    public IEnumerable<Cart> GetAll() => AppDbContext.Carts;
+    public IEnumerable<Cart> GetAll() => ShopDbContext.Carts;
 }

@@ -5,24 +5,24 @@ namespace Codecool.Shop.Data.Repositories.Repositories;
 
 public class ProductCategoryDbRepository : IProductCategoryRepository
 {
-    public AppDbContext AppDbContext { get; init; }
+    public ShopDbContext ShopDbContext { get; init; }
 
     public ProductCategory Add(ProductCategory item)
     {
-        AppDbContext.Categories.Add(item);
-        AppDbContext.SaveChanges();
+        ShopDbContext.Categories.Add(item);
+        ShopDbContext.SaveChanges();
 
         return item;
     }
 
     public void Remove(ProductCategory item)
     {
-        AppDbContext.Categories.Remove(item);
-        AppDbContext.SaveChanges();
+        ShopDbContext.Categories.Remove(item);
+        ShopDbContext.SaveChanges();
     }
 
     public ProductCategory Get(int id) =>
-        AppDbContext.Categories.FirstOrDefault(x => x.Id == id);
+        ShopDbContext.Categories.FirstOrDefault(x => x.Id == id);
 
-    public IEnumerable<ProductCategory> GetAll() => AppDbContext.Categories;
+    public IEnumerable<ProductCategory> GetAll() => ShopDbContext.Categories;
 }

@@ -6,26 +6,26 @@ namespace Codecool.Shop.Data.Repositories.Repositories;
 
 public class OrderDbRepository: IOrderRepository
 {
-    public AppDbContext AppDbContext { get; init; }
+    public ShopDbContext ShopDbContext { get; init; }
 
     public Order Add(Order item)
     {
-        AppDbContext.Orders.Add(item);
-        AppDbContext.SaveChanges();
+        ShopDbContext.Orders.Add(item);
+        ShopDbContext.SaveChanges();
 
         return item;
     }
 
     public void Remove(Order item)
     {
-        AppDbContext.Orders.Remove(item);
-        AppDbContext.SaveChanges();
+        ShopDbContext.Orders.Remove(item);
+        ShopDbContext.SaveChanges();
     }
 
-    public Order Get(int id) => AppDbContext.Orders.FirstOrDefault(x => x.Id == id);
+    public Order Get(int id) => ShopDbContext.Orders.FirstOrDefault(x => x.Id == id);
 
-    public IEnumerable<Order> GetAll() => AppDbContext.Orders;
-    public Order GetOrder(string userId) => AppDbContext.Orders.FirstOrDefault(x => x.UserId == userId);
+    public IEnumerable<Order> GetAll() => ShopDbContext.Orders;
+    public Order GetOrder(string userId) => ShopDbContext.Orders.FirstOrDefault(x => x.UserId == userId);
 
 
 
@@ -41,9 +41,9 @@ public class OrderDbRepository: IOrderRepository
 
     public void Modify(Order orderToUpdate)
     {
-        AppDbContext.Attach(orderToUpdate);
-        AppDbContext.Entry(orderToUpdate).State = EntityState.Modified;
-        AppDbContext.SaveChanges();
+        ShopDbContext.Attach(orderToUpdate);
+        ShopDbContext.Entry(orderToUpdate).State = EntityState.Modified;
+        ShopDbContext.SaveChanges();
     }
     // public void UpdatePaid(string userId)
     // {

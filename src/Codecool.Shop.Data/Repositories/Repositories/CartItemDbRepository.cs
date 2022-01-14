@@ -6,46 +6,46 @@ namespace Codecool.Shop.Data.Repositories.Repositories;
 
 public class CartItemDbRepository: ICartItemRepository
 {
-    public AppDbContext AppDbContext { get; init; }
+    public ShopDbContext ShopDbContext { get; init; }
 
     public CartItem Add(CartItem item)
     {
-        AppDbContext.CartItems.Add(item);
-        AppDbContext.SaveChanges();
+        ShopDbContext.CartItems.Add(item);
+        ShopDbContext.SaveChanges();
 
         return item;
     }
 
     public void Remove(CartItem item)
     {
-        AppDbContext.CartItems.Remove(item);
-        AppDbContext.SaveChanges();
+        ShopDbContext.CartItems.Remove(item);
+        ShopDbContext.SaveChanges();
     }
 
-    public CartItem Get(int id) => AppDbContext.CartItems.FirstOrDefault(x => x.Id == id);
+    public CartItem Get(int id) => ShopDbContext.CartItems.FirstOrDefault(x => x.Id == id);
 
     public IEnumerable<CartItem> GetAll(int shoppingCartId) =>
-        AppDbContext.CartItems.Where(
+        ShopDbContext.CartItems.Where(
             c => c.CartId == shoppingCartId);
 
     public void RemoveCartItems(int cartId)
     {
-        AppDbContext.CartItems.RemoveRange(AppDbContext.CartItems.Where(x => x.CartId == cartId));
+        ShopDbContext.CartItems.RemoveRange(ShopDbContext.CartItems.Where(x => x.CartId == cartId));
     }
 
-    public IEnumerable<CartItem> GetAll() => AppDbContext.CartItems;
+    public IEnumerable<CartItem> GetAll() => ShopDbContext.CartItems;
 
     public void Update(int itemId)
     {
         CartItem itemToUpdate = Get(itemId);
         itemToUpdate.Quantity++;
-        AppDbContext.SaveChanges();
+        ShopDbContext.SaveChanges();
     }
 
     public void Modify(CartItem itemToUpdate)
     {
-        AppDbContext.Attach(itemToUpdate);
-        AppDbContext.Entry(itemToUpdate).State = EntityState.Modified;
-        AppDbContext.SaveChanges();
+        ShopDbContext.Attach(itemToUpdate);
+        ShopDbContext.Entry(itemToUpdate).State = EntityState.Modified;
+        ShopDbContext.SaveChanges();
     }
 }

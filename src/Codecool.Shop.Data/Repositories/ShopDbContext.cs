@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Codecool.Shop.Data.Repositories;
 
-public class AppDbContext: IdentityDbContext<IdentityUser>
+public class ShopDbContext: IdentityDbContext<IdentityUser>
 {
-    public AppDbContext(DbContextOptions<AppDbContext> options): base(options)
+    public ShopDbContext(DbContextOptions<ShopDbContext> options): base(options)
     {
     }
 

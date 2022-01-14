@@ -5,24 +5,24 @@ namespace Codecool.Shop.Data.Repositories.Repositories;
 
 public class ClientDbRepository: IClientRepository
 {
-    public AppDbContext AppDbContext { get; init; }
+    public ShopDbContext ShopDbContext { get; init; }
 
     public Client Add(Client item)
     {
-        AppDbContext.Clients.Add(item);
-        AppDbContext.SaveChanges();
+        ShopDbContext.Clients.Add(item);
+        ShopDbContext.SaveChanges();
 
         return item;
     }
 
     public void Remove(Client item)
     {
-        AppDbContext.Clients.Remove(item);
-        AppDbContext.SaveChanges();
+        ShopDbContext.Clients.Remove(item);
+        ShopDbContext.SaveChanges();
     }
 
-    public Client Get(int id) => AppDbContext.Clients.FirstOrDefault(x => x.ClientId == id);
+    public Client Get(int id) => ShopDbContext.Clients.FirstOrDefault(x => x.ClientId == id);
 
-    public Client Get(string userId) => AppDbContext.Clients.FirstOrDefault(x => x.UserId == userId);
-    public IEnumerable<Client> GetAll() => AppDbContext.Clients;
+    public Client Get(string userId) => ShopDbContext.Clients.FirstOrDefault(x => x.UserId == userId);
+    public IEnumerable<Client> GetAll() => ShopDbContext.Clients;
 }

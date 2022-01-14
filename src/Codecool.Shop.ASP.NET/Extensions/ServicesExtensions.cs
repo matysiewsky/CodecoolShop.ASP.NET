@@ -5,6 +5,7 @@ using Codecool.Shop.Data.Repositories;
 using Codecool.Shop.Data.Repositories.Repositories;
 using Codecool.Shop.Domain.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -16,7 +17,7 @@ public static class ServicesExtensions
 {
     public static void ConfigureDbContextAndSqlServer(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContext<AppDbContext>(options =>
+        services.AddDbContext<ShopDbContext>(options =>
         {
             options.UseSqlServer(new SqlConnectionStringBuilder()
                 {
@@ -40,35 +41,41 @@ public static class ServicesExtensions
         );
     }
 
+    public static void ConfigureDefaultIdentity(this IServiceCollection services)
+    {
+        services.AddDefaultIdentity<IdentityUser>()
+            .AddEntityFrameworkStores<ShopDbContext>();
+    }
+
     public static void ConfigureRepositories(this IServiceCollection services)
     {
         services.AddScoped<IProductCategoryRepository, ProductCategoryDbRepository>(s => new ProductCategoryDbRepository()
         {
-            AppDbContext = s.GetRequiredService<AppDbContext>()
+            ShopDbContext = s.GetRequiredService<ShopDbContext>()
         });
         services.AddScoped<IProductRepository, ProductDbRepository>(s => new ProductDbRepository()
         {
-            AppDbContext = s.GetRequiredService<AppDbContext>()
+            ShopDbContext = s.GetRequiredService<ShopDbContext>()
         });
         services.AddScoped<ISupplierRepository, SupplierDbRepository>(s => new SupplierDbRepository()
         {
-            AppDbContext = s.GetRequiredService<AppDbContext>()
+            ShopDbContext = s.GetRequiredService<ShopDbContext>()
         });
         services.AddScoped<ICartRepository, CartDbRepository>(s => new CartDbRepository()
         {
-            AppDbContext = s.GetRequiredService<AppDbContext>()
+            ShopDbContext = s.GetRequiredService<ShopDbContext>()
         });
         services.AddScoped<ICartItemRepository, CartItemDbRepository>(s => new CartItemDbRepository()
         {
-            AppDbContext = s.GetRequiredService<AppDbContext>()
+            ShopDbContext = s.GetRequiredService<ShopDbContext>()
         });
         services.AddScoped<IOrderRepository, OrderDbRepository>(s => new OrderDbRepository()
         {
-            AppDbContext = s.GetRequiredService<AppDbContext>()
+            ShopDbContext = s.GetRequiredService<ShopDbContext>()
         });
         services.AddScoped<IClientRepository, ClientDbRepository>(s => new ClientDbRepository()
         {
-            AppDbContext = s.GetRequiredService<AppDbContext>()
+            ShopDbContext = s.GetRequiredService<ShopDbContext>()
         });
     }
 
