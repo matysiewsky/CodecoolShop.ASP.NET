@@ -5,15 +5,12 @@ namespace Codecool.Shop.ASP.NET.Service.Interfaces;
 
 public interface IOrderService
 {
-    Cart GetShoppingCartByUserId(string userId);
-    IEnumerable<int> GetProductsIdsByUserId(string userId);
-    public IEnumerable<CartItem> GetCartItemsByUserId(string userId);
-
+    IEnumerable<CartItem> GetCartItems(string userId);
+    IEnumerable<int> GetProductsIds(string userId);
     double GetTotalPrice(string userId);
-    void AddOrder(Order item);
-    void ClearCartAndCartItems(string userId);
-
     Order GetOrder(string userId);
-
+    void AddOrder(Order item);
+    void RemoveCart(string userId);
+    void RemoveCartItems(string userId);
     public void Modify(Order orderToUpdate);
 }

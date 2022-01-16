@@ -27,7 +27,7 @@ public class OrderController : Controller
             Order = new Order
             {
                 UserId = userId,
-                ProductsIds = JsonConvert.SerializeObject(_orderService.GetProductsIdsByUserId(userId)),
+                ProductsIds = JsonConvert.SerializeObject(_orderService.GetProductsIds(userId)),
                 Currency = "USD",
                 TotalPrice = _orderService.GetTotalPrice(userId),
                 IsPaid = false
@@ -36,7 +36,7 @@ public class OrderController : Controller
             {
                 UserId = userId,
             },
-            CartItems = _orderService.GetCartItemsByUserId(userId),
+            CartItems = _orderService.GetCartItems(userId),
             TotalPrice = _orderService.GetTotalPrice(userId),
         };
         _orderService.AddOrder(orderViewModel.Order);
@@ -57,7 +57,7 @@ public class OrderController : Controller
             _clientService.AddClient(order.Client);
             _orderService.Modify(order);
 
-            viewModel.CartItems = _orderService.GetCartItemsByUserId(userId);
+            viewModel.CartItems = _orderService.GetCartItems(userId);
             viewModel.TotalPrice = _orderService.GetTotalPrice(userId);
 
             return RedirectToAction("CompletingOrderPayment", viewModel);
@@ -85,7 +85,7 @@ public class OrderController : Controller
         {
             Order = _orderService.GetOrder(userId),
             ValidatorClientModel = _clientService.GetClient(userId),
-            CartItems = _orderService.GetCartItemsByUserId(userId),
+            CartItems = _orderService.GetCartItems(userId),
             TotalPrice = _orderService.GetTotalPrice(userId),
         };
 
@@ -103,7 +103,8 @@ public class OrderController : Controller
             order.DateCreated = DateTime.Now;
             order.IsPaid = true;
             _orderService.Modify(order);
-            _orderService.ClearCartAndCartItems(order.UserId);
+            _orderService.RemoveCart(order.UserId);
+            _orderService.RemoveCartItems(order.UserId);
 
             return RedirectToAction("OrderCompleted", _orderService.GetOrder(userId));
         }

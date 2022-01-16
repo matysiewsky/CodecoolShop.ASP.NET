@@ -27,9 +27,9 @@ public class HomeController : Controller
     {
         ProductsIndexViewModel productsIndexViewModel = new ProductsIndexViewModel
         {
-            Products = _productService.GetAllProducts(),
+            Products = _productService.GetProducts(),
             Suppliers = _supplierService.GetAllSuppliers(),
-            Categories = _productService.GetAllProductCategories(),
+            Categories = _productService.GetProductCategories(),
         };
 
         foreach (ProductCategory category in productsIndexViewModel.Categories)

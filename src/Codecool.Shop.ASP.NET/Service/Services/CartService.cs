@@ -13,41 +13,50 @@ public class CartService : ICartService
     public IUnitOfWork UnitOfWork { private get; init; }
     public IHttpContextAccessor HttpContextAccessor { private get; init; }
 
-    public Cart ReturnNewCart(string userId)
+    public string GetSessionId()
+        => HttpContextAccessor.HttpContext!.Session.Id;
+    public Cart GetCart(string userId)
+        => UnitOfWork.Carts.Get(x => x.UserId == userId);
+    public CartItem GetCartItem(int id)
+        => UnitOfWork.CartItems.Get(x => x.Id == id);
+    public IEnumerable<CartItem> GetCartItems(int shoppingCartId)
+        => UnitOfWork.CartItems.GetRange(x => x.CartId == shoppingCartId);
+    public int GetCartItemsCount(string userId)
     {
-        Cart newCart = new Cart { UserId = userId };
+        int id = GetCart(userId).Id;
+        return GetCartItems(id).Count();
+    }
+    public Cart AddCart(string userId)
+    {
+        Cart newCart = new Cart {UserId = userId};
 
         UnitOfWork.Carts.Add(newCart);
         UnitOfWork.Save();
 
         return newCart;
     }
-
-    public void AddToCart(string userId, int productId)
+    public void AddCartItem(string userId, int productId)
     {
         Product productToAdd = UnitOfWork.Products.Get(x => x.Id == productId);
         Cart cart = UnitOfWork.Carts.Get(x => x.UserId == userId);
 
         if (cart == null)
         {
-            Cart newCart = new Cart { UserId = userId };
+            Cart newCart = new Cart {UserId = userId};
             cart = newCart;
 
             UnitOfWork.Carts.Add(newCart);
             UnitOfWork.Save();
         }
 
-        IEnumerable<CartItem> shoppingCartItems = UnitOfWork.CartItems.GetRange
-            (x=> x.CartId == cart.Id);
+        IEnumerable<CartItem> shoppingCartItems = UnitOfWork.CartItems.GetRange(x => x.CartId == cart.Id);
 
         foreach (CartItem shoppingCartItem in shoppingCartItems)
         {
-            shoppingCartItem.Product = UnitOfWork.Products.Get
-                (x => x.Id == shoppingCartItem.ProductId);
+            shoppingCartItem.Product = UnitOfWork.Products.Get(x => x.Id == shoppingCartItem.ProductId);
         }
 
-        CartItem cartItem = shoppingCartItems.SingleOrDefault(
-            cartItem => cartItem.Product.Id == productId);
+        CartItem cartItem = shoppingCartItems.SingleOrDefault(cartItem => cartItem.Product.Id == productId);
 
         if (cartItem == null)
         {
@@ -70,31 +79,13 @@ public class CartService : ICartService
         }
     }
 
-    public string GetCartId()
-        => HttpContextAccessor.HttpContext!.Session.Id;
-
-    public Cart GetCart(int id)
-        => UnitOfWork.Carts.Get(x=> x.Id == id);
-    public CartItem GetCartItem(int id)
-        => UnitOfWork.CartItems.Get(x => x.Id == id);
-    public Cart GetCartByUserId(string userId)
-        => UnitOfWork.Carts.Get(x => x.UserId == userId);
-
-    public IEnumerable<CartItem> GetCartItemsByShoppingCartId(int shoppingCartId)
-        => UnitOfWork.CartItems.GetRange(x => x.CartId == shoppingCartId);
-
-    public int GetCartItemsCount(string userId)
-    {
-        int id = GetCartByUserId(userId).Id;
-        return GetCartItemsByShoppingCartId(id).Count();
-    }
-
-    public void ClearCartItem(CartItem item)
+    public void RemoveCartItem(CartItem item)
     {
         UnitOfWork.CartItems.Remove(item);
         UnitOfWork.Save();
     }
-    public void Modify(CartItem orderToUpdate)
+
+    public void ModifyCartItem(CartItem orderToUpdate)
     {
         UnitOfWork.CartItems.Modify(orderToUpdate);
         UnitOfWork.Save();

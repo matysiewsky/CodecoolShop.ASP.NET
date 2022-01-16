@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Codecool.Shop.Data", "Codec
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Util", "Util\Util.csproj", "{003FE66B-0094-470B-A8F2-FDD06164A9D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NUnit.Testing", "NUnit.Testing\NUnit.Testing.csproj", "{901C2383-4395-4DD7-B783-039A941A688D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Codecool.Shop.Test", "Codecool.Shop.Test\Codecool.Shop.Test.csproj", "{901C2383-4395-4DD7-B783-039A941A688D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

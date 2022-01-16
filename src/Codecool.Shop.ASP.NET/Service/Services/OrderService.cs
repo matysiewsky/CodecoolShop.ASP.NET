@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Codecool.Shop.ASP.NET.Service.Interfaces;
@@ -10,58 +11,57 @@ public class OrderService : IOrderService
 {
     public IUnitOfWork UnitOfWork { private get; init; }
 
-    public Cart GetShoppingCartByUserId(string userId)
+    private Cart GetCart(string userId)
         => UnitOfWork.Carts.Get(x => x.UserId == userId);
+    public IEnumerable<CartItem> GetCartItems(string userId)
+    {
+        Cart cart = GetCart(userId);
 
-    public IEnumerable<int> GetProductsIdsByUserId(string userId)
-        => GetCartItemsByUserId(userId).Select(cartItem => cartItem.ProductId);
-
+        return UnitOfWork.CartItems.GetRange(x => x.CartId == cart.Id)
+            .Join(UnitOfWork.Products.GetAll(), cartItem => cartItem.Product.Id, product => product.Id,
+                (cartItem, product) => new CartItem
+                {
+                    CartId = cartItem.CartId,
+                    DateCreated = cartItem.DateCreated,
+                    Id = cartItem.Id,
+                    Product = product,
+                    ProductId = product.Id,
+                    Quantity = cartItem.Quantity
+                })
+            .ToList();
+    }
+    public IEnumerable<int> GetProductsIds(string userId)
+        => GetCartItems(userId).Select(cartItem => cartItem.ProductId);
 
     public double GetTotalPrice(string userId)
-        => GetCartItemsByUserId(userId).Select
+        => GetCartItems(userId).Select
             (cartItem => cartItem.Product.DefaultPrice * cartItem.Quantity).Sum();
-
-
-    public IEnumerable<CartItem> GetCartItemsByUserId(string userId)
-    {
-        Cart cart = GetShoppingCartByUserId(userId);
-
-        IEnumerable<CartItem> cartItems =
-            UnitOfWork.CartItems.GetRange(x => x.CartId == cart.Id);
-
-        return GetProductsForImportedCartItems(cartItems);
-    }
-
-    private IEnumerable<CartItem> GetProductsForImportedCartItems(IEnumerable<CartItem> cartItems)
-    {
-        foreach (CartItem cartItem in cartItems)
-        {
-            cartItem.Product = UnitOfWork.Products.Get(x => x.Id == cartItem.ProductId);
-        }
-
-        return cartItems;
-    }
-
+    public Order GetOrder(string userId)
+        => UnitOfWork.Orders.Get(x => x.UserId == userId);
     public void AddOrder(Order item)
     {
         UnitOfWork.Orders.Add(item);
         UnitOfWork.Save();
     }
-
-    public void ClearCartAndCartItems(string userId)
+    public void RemoveCart(string userId)
     {
         Cart cartToRemove = UnitOfWork.Carts.Get
             (x => x.UserId == userId);
-        IEnumerable<CartItem> cartItemsToRemove = UnitOfWork.CartItems.GetRange
-            (x => x.CartId == cartToRemove.Id);
 
-        UnitOfWork.CartItems.RemoveRange(cartItemsToRemove);
         UnitOfWork.Carts.Remove(cartToRemove);
         UnitOfWork.Save();
     }
 
-    public Order GetOrder(string userId)
-        => UnitOfWork.Orders.Get(x => x.UserId == userId);
+    public void RemoveCartItems(string userId)
+    {
+        int cartId = GetCart(userId).Id;
+
+        IEnumerable<CartItem> cartItemsToRemove = UnitOfWork.CartItems.GetRange
+            (x => x.CartId == cartId);
+
+        UnitOfWork.CartItems.RemoveRange(cartItemsToRemove);
+        UnitOfWork.Save();
+    }
 
     public void Modify(Order orderToUpdate)
     {

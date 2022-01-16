@@ -5,9 +5,10 @@ namespace Codecool.Shop.ASP.NET.Service.Interfaces;
 
 public interface IProductService
 {
-    IEnumerable<Product> GetAllProducts();
-    IEnumerable<ProductCategory> GetAllProductCategories();
+    Product GetProduct(int productId);
+    IEnumerable<Product> GetProducts();
+    IEnumerable<ProductCategory> GetProductCategories();
     IEnumerable<Product> GetProductsForCategory(int categoryId);
     IEnumerable<Product> GetProductsForSupplier(int supplierId);
-    Product GetProduct(int productId);
+
 }

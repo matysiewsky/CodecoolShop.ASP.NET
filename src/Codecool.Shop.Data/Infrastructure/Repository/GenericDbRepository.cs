@@ -9,10 +9,10 @@ public class GenericDbRepository<TEntity>: IGenericDbRepository<TEntity> where T
     public ShopDbContext DbContext { private get; init; }
     public DbSet<TEntity> DbSet { private get; init; }
 
-    public TEntity Get(Expression<Func<TEntity, bool>> filterExpression)
+    public TEntity Get(Func<TEntity, bool> filterExpression)
         => DbSet.FirstOrDefault(filterExpression);
 
-    public IEnumerable<TEntity> GetRange(Expression<Func<TEntity, bool>> filterExpression)
+    public IEnumerable<TEntity> GetRange(Func<TEntity, bool> filterExpression)
         => DbSet.Where(filterExpression);
 
     public IEnumerable<TEntity> GetAll()

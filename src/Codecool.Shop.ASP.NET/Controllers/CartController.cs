@@ -24,16 +24,16 @@ public class CartController : Controller
         bool existingUser = Request.Cookies.ContainsKey("userId");
         string userId = (existingUser)
             ? Request.Cookies["userId"]
-            : _cartService.GetCartId();
+            : _cartService.GetSessionId();
 
         if (!existingUser) Response.Cookies.Append("userId", userId);
 
         CartViewModel cartViewModel = new CartViewModel
         {
-            Cart = _cartService.GetCartByUserId(userId) ?? _cartService.ReturnNewCart(userId),
+            Cart = _cartService.GetCart(userId) ?? _cartService.AddCart(userId),
         };
         cartViewModel.CartItems =
-            _cartService.GetCartItemsByShoppingCartId(cartViewModel.Cart.Id);
+            _cartService.GetCartItems(cartViewModel.Cart.Id);
 
         foreach (CartItem shoppingCartItem in cartViewModel.CartItems)
         {
@@ -48,11 +48,11 @@ public class CartController : Controller
         bool existingUser = Request.Cookies.ContainsKey("userId");
         string userId = (existingUser)
             ? Request.Cookies["userId"]
-            : _cartService.GetCartId();
+            : _cartService.GetSessionId();
 
         if (!existingUser) Response.Cookies.Append("userId", userId);
 
-        _cartService.AddToCart(userId, productId);
+        _cartService.AddCartItem(userId, productId);
         return RedirectToAction("CartSummary", "Cart");
     }
 
@@ -60,7 +60,7 @@ public class CartController : Controller
     {
         CartItem itemToUpdate = _cartService.GetCartItem(cartItemId);
         itemToUpdate.Quantity++;
-        _cartService.Modify(itemToUpdate);
+        _cartService.ModifyCartItem(itemToUpdate);
         return RedirectToAction("CartSummary", "Cart");
     }
 
@@ -69,12 +69,12 @@ public class CartController : Controller
         CartItem itemToUpdate = _cartService.GetCartItem(cartItemId);
         if (itemToUpdate.Quantity <= 1)
         {
-            _cartService.ClearCartItem(itemToUpdate);
+            _cartService.RemoveCartItem(itemToUpdate);
         }
         else
         {
             itemToUpdate.Quantity--;
-            _cartService.Modify(itemToUpdate);
+            _cartService.ModifyCartItem(itemToUpdate);
         }
         return RedirectToAction("CartSummary", "Cart");
     }
@@ -82,7 +82,7 @@ public class CartController : Controller
     public IActionResult DeleteCartItem(int cartItemId)
     {
         CartItem itemToRemove = _cartService.GetCartItem(cartItemId);
-        _cartService.ClearCartItem(itemToRemove);
+        _cartService.RemoveCartItem(itemToRemove);
 
         return RedirectToAction("CartSummary", "Cart");
     }

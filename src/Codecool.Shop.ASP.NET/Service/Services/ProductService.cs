@@ -10,13 +10,12 @@ public class ProductService : IProductService
 {
     public IUnitOfWork UnitOfWork { private get; init; }
 
-    public ProductCategory GetProductCategory(int categoryId)
-        => UnitOfWork.Categories.Get(x => x.Id == categoryId);
-
-    public IEnumerable<Product> GetAllProducts()
+    public Product GetProduct(int productId)
+        => UnitOfWork.Products.Get(x => x.Id == productId);
+    public IEnumerable<Product> GetProducts()
         => UnitOfWork.Products.GetAll();
 
-    public IEnumerable<ProductCategory> GetAllProductCategories()
+    public IEnumerable<ProductCategory> GetProductCategories()
         => UnitOfWork.Categories.GetAll();
 
     public IEnumerable<Product> GetProductsForCategory(int categoryId)
@@ -24,9 +23,8 @@ public class ProductService : IProductService
         ProductCategory category
             = UnitOfWork.Categories.Get(x => x.Id == categoryId);
 
-        return (category != null) ?
-            // ReSharper disable once PossibleUnintendedReferenceComparison
-            UnitOfWork.Products.GetRange(x => x.ProductCategory == category)
+        return category != null ?
+            UnitOfWork.Products.GetRange(x => x.ProductCategory.Id == category.Id)
             : Enumerable.Empty<Product>();
     }
 
@@ -34,11 +32,10 @@ public class ProductService : IProductService
     {
         Supplier supplier = UnitOfWork.Suppliers.Get(x => x.Id == supplierId);
 
-        return (supplier != null) ?
-            UnitOfWork.Products.GetRange(x => x.Supplier == supplier)
+        return supplier != null ?
+            UnitOfWork.Products.GetRange(x => x.Supplier.Id == supplier.Id)
             : Enumerable.Empty<Product>();
     }
 
-    public Product GetProduct(int productId)
-        => UnitOfWork.Products.Get(x => x.Id == (productId));
+
 }

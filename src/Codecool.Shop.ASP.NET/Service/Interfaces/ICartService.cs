@@ -5,15 +5,14 @@ namespace Codecool.Shop.ASP.NET.Service.Interfaces;
 
 public interface ICartService
 {
-    Cart ReturnNewCart(string userId);
-    void AddToCart(string userId, int productId);
-    string GetCartId();
-    Cart GetCart(int id);
-    public CartItem GetCartItem(int id);
-    Cart GetCartByUserId(string userId);
-    IEnumerable<CartItem> GetCartItemsByShoppingCartId(int shoppingCartId);
-    public int GetCartItemsCount(string userId);
-    public void ClearCartItem(CartItem item);
-    public void Modify(CartItem orderToUpdate);
+    string GetSessionId();
+    Cart GetCart(string userId);
+    CartItem GetCartItem(int id);
+    IEnumerable<CartItem> GetCartItems(int shoppingCartId);
+    int GetCartItemsCount(string userId);
+    Cart AddCart(string userId);
+    void AddCartItem(string userId, int productId);
+    void RemoveCartItem(CartItem item);
+    void ModifyCartItem(CartItem orderToUpdate);
 
 }
