@@ -9,7 +9,11 @@ namespace Codecool.Shop.ASP.NET.Service.Services;
 
 public class OrderService : IOrderService
 {
-    public IUnitOfWork UnitOfWork { private get; init; }
+    private IUnitOfWork UnitOfWork { get; }
+
+    public OrderService(IUnitOfWork unitOfWork)
+        => UnitOfWork = unitOfWork;
+
 
     private Cart GetCart(string userId)
         => UnitOfWork.Carts.Get(x => x.UserId == userId);

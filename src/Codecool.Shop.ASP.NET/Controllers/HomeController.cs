@@ -1,8 +1,11 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using Codecool.Shop.ASP.NET.Service.Interfaces;
+using Codecool.Shop.ASP.NET.Service.Services;
 using Codecool.Shop.ASP.NET.ViewModels;
 using Codecool.Shop.Domain.Models;
+using Codecool.Shop.Domain.Repositories.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -15,13 +18,15 @@ public class HomeController : Controller
     private readonly ISupplierService _supplierService;
     private readonly ICartService _cartService;
 
-    public HomeController(ILogger<HomeController> logger, ISupplierService supplierService, IProductService productService, ICartService cartService)
+    public HomeController(ILogger<HomeController> logger, IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor)
     {
         _logger = logger;
-        _supplierService = supplierService;
-        _productService = productService;
-        _cartService = cartService;
+        _supplierService = new SupplierService(unitOfWork);
+        _productService = new ProductService(unitOfWork);
+        _cartService = new CartService(unitOfWork, httpContextAccessor);
     }
+
+
 
     public ViewResult Products()
     {

@@ -56,29 +56,29 @@ public static class ServicesExtensions
                 });
 
 
-    public static void ConfigureAppServices(this IServiceCollection services)
-    {
-        services.AddScoped<ISupplierService, SupplierService>(s => new SupplierService
-        {
-            UnitOfWork = s.GetRequiredService<IUnitOfWork>()
-        });
-        services.AddScoped<IProductService, ProductService>(s => new ProductService
-        {
-            UnitOfWork = s.GetRequiredService<IUnitOfWork>()
-        });
-
-        services.AddScoped<ICartService>(s => new CartService
-        {
-            UnitOfWork = s.GetRequiredService<IUnitOfWork>(),
-            HttpContextAccessor = s.GetRequiredService<IHttpContextAccessor>()
-        });
-        services.AddScoped<IClientService, ClientService>(s => new ClientService
-        {
-            UnitOfWork = s.GetRequiredService<IUnitOfWork>()
-        });
-        services.AddScoped<IOrderService, OrderService>(s => new OrderService
-        {
-            UnitOfWork = s.GetRequiredService<IUnitOfWork>()
-        });
-    }
+    // public static void ConfigureAppServices(this IServiceCollection services)
+    // {
+    //     services.AddScoped<ISupplierService, SupplierService>(s => new SupplierService
+    //     {
+    //         UnitOfWork = s.GetRequiredService<IUnitOfWork>()
+    //     });
+    //     services.AddScoped<IProductService, ProductService>(s => new ProductService
+    //     {
+    //         UnitOfWork = s.GetRequiredService<IUnitOfWork>()
+    //     });
+    //
+    //     services.AddScoped<ICartService>(s => new CartService
+    //     {
+    //         UnitOfWork = s.GetRequiredService<IUnitOfWork>(),
+    //         HttpContextAccessor = s.GetRequiredService<IHttpContextAccessor>()
+    //     });
+    //     services.AddScoped<IClientService, ClientService>(s => new ClientService
+    //     {
+    //         UnitOfWork = s.GetRequiredService<IUnitOfWork>()
+    //     });
+    //     services.AddScoped<IOrderService, OrderService>(s => new OrderService
+    //     {
+    //         UnitOfWork = s.GetRequiredService<IUnitOfWork>()
+    //     });
+    // }
 }

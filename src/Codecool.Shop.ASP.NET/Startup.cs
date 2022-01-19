@@ -29,7 +29,7 @@ public class Startup
 
         services.ConfigureUnitOfWork();
 
-        services.ConfigureAppServices();
+        // services.ConfigureAppServices();
 
         services.AddControllersWithViews();
 

@@ -7,7 +7,11 @@ namespace Codecool.Shop.ASP.NET.Service.Services;
 
 public class SupplierService : ISupplierService
 {
-    public IUnitOfWork UnitOfWork { private get; init; }
+    private IUnitOfWork UnitOfWork { get; }
+
+    public SupplierService(IUnitOfWork unitOfWork)
+        => UnitOfWork = unitOfWork;
+
 
     public Supplier GetSupplier(int id)
         => UnitOfWork.Suppliers.Get(x => x.Id == id);

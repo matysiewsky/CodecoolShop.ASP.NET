@@ -1,7 +1,9 @@
 using System;
 using Codecool.Shop.ASP.NET.Service.Interfaces;
+using Codecool.Shop.ASP.NET.Service.Services;
 using Codecool.Shop.ASP.NET.ViewModels;
 using Codecool.Shop.Domain.Models;
+using Codecool.Shop.Domain.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -12,10 +14,10 @@ public class OrderController : Controller
     private readonly IOrderService _orderService;
     private readonly IClientService _clientService;
 
-    public OrderController(IOrderService orderService, IClientService clientService)
+    public OrderController(IUnitOfWork unitOfWork)
     {
-        _orderService = orderService;
-        _clientService = clientService;
+        _orderService = new OrderService(unitOfWork);
+        _clientService = new ClientService(unitOfWork);
     }
 
     [HttpGet]

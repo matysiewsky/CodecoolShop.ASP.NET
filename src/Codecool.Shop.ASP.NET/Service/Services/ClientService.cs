@@ -6,7 +6,11 @@ namespace Codecool.Shop.ASP.NET.Service.Services;
 
 public class ClientService : IClientService
 {
-    public IUnitOfWork UnitOfWork { private get; init; }
+    private IUnitOfWork UnitOfWork { get; }
+
+    public ClientService(IUnitOfWork unitOfWork)
+        => UnitOfWork = unitOfWork;
+
 
     public Client GetClient(string userId)
         => UnitOfWork.Clients.Get(x => x.UserId == userId);

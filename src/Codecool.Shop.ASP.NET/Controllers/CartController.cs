@@ -1,6 +1,9 @@
 using Codecool.Shop.ASP.NET.Service.Interfaces;
+using Codecool.Shop.ASP.NET.Service.Services;
 using Codecool.Shop.ASP.NET.ViewModels;
 using Codecool.Shop.Domain.Models;
+using Codecool.Shop.Domain.Repositories.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -12,13 +15,14 @@ public class CartController : Controller
     private readonly IProductService _productService;
     private readonly ICartService _cartService;
 
-    public CartController(ILogger<CartController> logger, IProductService productService, ICartService cartService)
+    public CartController(ILogger<CartController> logger, IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor)
     {
         _logger = logger;
-        _productService = productService;
-        _cartService = cartService;
+        _productService = new ProductService(unitOfWork);
+        _cartService = new CartService(unitOfWork, httpContextAccessor);
     }
-    // GET
+
+
     public ViewResult CartSummary()
     {
         bool existingUser = Request.Cookies.ContainsKey("userId");

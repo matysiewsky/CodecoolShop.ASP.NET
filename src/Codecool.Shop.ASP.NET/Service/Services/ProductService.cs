@@ -8,7 +8,11 @@ namespace Codecool.Shop.ASP.NET.Service.Services;
 
 public class ProductService : IProductService
 {
-    public IUnitOfWork UnitOfWork { private get; init; }
+    private IUnitOfWork UnitOfWork { get; }
+
+    public ProductService(IUnitOfWork unitOfWork)
+        => UnitOfWork = unitOfWork;
+
 
     public Product GetProduct(int productId)
         => UnitOfWork.Products.Get(x => x.Id == productId);

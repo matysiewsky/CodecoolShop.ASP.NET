@@ -10,8 +10,15 @@ namespace Codecool.Shop.ASP.NET.Service.Services;
 
 public class CartService : ICartService
 {
-    public IUnitOfWork UnitOfWork { private get; init; }
-    public IHttpContextAccessor HttpContextAccessor { private get; init; }
+    private IUnitOfWork UnitOfWork { get; }
+    private IHttpContextAccessor HttpContextAccessor { get; }
+
+    public CartService(IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor)
+    {
+        UnitOfWork = unitOfWork;
+        HttpContextAccessor = httpContextAccessor;
+    }
+
 
     public string GetSessionId()
         => HttpContextAccessor.HttpContext!.Session.Id;
