@@ -2,12 +2,11 @@ using System;
 using System.Linq;
 using Codecool.Shop.ASP.NET.Service.Interfaces;
 using Codecool.Shop.ASP.NET.Service.Services;
-using Codecool.Shop.Domain.Models;
 using Codecool.Shop.Domain.Repositories.Interfaces;
 using Moq;
 using NUnit.Framework;
 
-namespace Codecool.Shop.Test.SupplierServiceTest;
+namespace Codecool.Shop.Test.Services.Supplier;
 
 [TestFixture]
 public class SupplierServiceShould
@@ -17,7 +16,7 @@ public class SupplierServiceShould
     {
         // Arrange
         Mock<IUnitOfWork> unitOfWorkMocked = new();
-        unitOfWorkMocked.Setup(x => x.Suppliers.GetAll()).Returns(new Supplier[]
+        unitOfWorkMocked.Setup(x => x.Suppliers.GetAll()).Returns(new Domain.Models.Supplier[]
         {
             new() {Id = 1},
             new() {Id = 2},
@@ -34,7 +33,7 @@ public class SupplierServiceShould
     {
         // Arrange
         Mock<IUnitOfWork> unitOfWorkMocked = new();
-        unitOfWorkMocked.Setup(x => x.Suppliers.GetAll()).Returns(Array.Empty<Supplier>());
+        unitOfWorkMocked.Setup(x => x.Suppliers.GetAll()).Returns(Array.Empty<Domain.Models.Supplier>());
         ISupplierService sut = new SupplierService(unitOfWorkMocked.Object);
 
         // Act & Assert
@@ -46,7 +45,7 @@ public class SupplierServiceShould
     {
         // Arrange
         Mock<IUnitOfWork> unitOfWorkMocked = new();
-        unitOfWorkMocked.Setup(x => x.Suppliers.Get(It.IsAny<Func<Supplier, bool>>())).Returns(new Supplier {Id = 1});
+        unitOfWorkMocked.Setup(x => x.Suppliers.Get(It.IsAny<Func<Domain.Models.Supplier, bool>>())).Returns(new Domain.Models.Supplier {Id = 1});
         ISupplierService sut = new SupplierService(unitOfWorkMocked.Object);
 
         // Act & Assert
@@ -58,7 +57,7 @@ public class SupplierServiceShould
     {
         // Arrange
         Mock<IUnitOfWork> unitOfWorkMocked = new();
-        unitOfWorkMocked.Setup(x => x.Suppliers.Get(It.IsAny<Func<Supplier, bool>>())).Returns((Supplier)null!);
+        unitOfWorkMocked.Setup(x => x.Suppliers.Get(It.IsAny<Func<Domain.Models.Supplier, bool>>())).Returns((Domain.Models.Supplier)null!);
         ISupplierService sut = new SupplierService(unitOfWorkMocked.Object);
 
         // Act & Assert
