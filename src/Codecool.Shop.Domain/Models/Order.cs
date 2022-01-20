@@ -1,11 +1,7 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace Codecool.Shop.Domain.Models;
 
-public class Order
+public class Order: BaseEntity
 {
-    [Key]
-    public int Id { get; set; }
     public DateTime DateCreated { get; set; }
     public string UserId { get; set; }
     public Client Client {get; set;}

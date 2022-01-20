@@ -2,10 +2,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Codecool.Shop.Domain.Models;
 
-public class Client
+public class Client: BaseEntity
 {
-    [Required]
-    public int ClientId { get; set; }
     public string UserId { get; set; }
     [Required]
     [StringLength(25, MinimumLength = 3, ErrorMessage = "The length of provided first name is not valid")]

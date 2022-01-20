@@ -1,10 +1,11 @@
-using System.Linq.Expressions;
+using Codecool.Shop.Domain.Models;
 using Codecool.Shop.Domain.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Codecool.Shop.Data.Infrastructure.Repository;
 
-public class GenericDbRepository<TEntity>: IGenericDbRepository<TEntity> where TEntity: class
+public class GenericDbRepository<TEntity>: IGenericDbRepository<TEntity>
+    where TEntity: BaseEntity
 {
     public ShopDbContext DbContext { private get; init; }
     public DbSet<TEntity> DbSet { private get; init; }

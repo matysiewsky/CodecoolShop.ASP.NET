@@ -1,11 +1,7 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace Codecool.Shop.Domain.Models;
 
-public class Cart
+public class Cart: BaseEntity
 {
-    [Key]
-    public int Id { get; set; }
     public string UserId { get; set; }
 
 }
