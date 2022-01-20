@@ -16,7 +16,9 @@ public class SupplierServiceShould
     {
         // Arrange
         Mock<IUnitOfWork> unitOfWorkMocked = new();
-        unitOfWorkMocked.Setup(x => x.Suppliers.GetAll()).Returns(new Domain.Models.Supplier[]
+        unitOfWorkMocked
+            .Setup(x => x.Suppliers.GetAll())
+            .Returns(new Domain.Models.Supplier[]
         {
             new() {Id = 1},
             new() {Id = 2},
@@ -33,7 +35,9 @@ public class SupplierServiceShould
     {
         // Arrange
         Mock<IUnitOfWork> unitOfWorkMocked = new();
-        unitOfWorkMocked.Setup(x => x.Suppliers.GetAll()).Returns(Array.Empty<Domain.Models.Supplier>());
+        unitOfWorkMocked
+            .Setup(x => x.Suppliers.GetAll())
+            .Returns(Array.Empty<Domain.Models.Supplier>());
         ISupplierService sut = new SupplierService(unitOfWorkMocked.Object);
 
         // Act & Assert
@@ -45,7 +49,9 @@ public class SupplierServiceShould
     {
         // Arrange
         Mock<IUnitOfWork> unitOfWorkMocked = new();
-        unitOfWorkMocked.Setup(x => x.Suppliers.Get(It.IsAny<Func<Domain.Models.Supplier, bool>>())).Returns(new Domain.Models.Supplier {Id = 1});
+        unitOfWorkMocked
+            .Setup(x => x.Suppliers.Get(It.IsAny<Func<Domain.Models.Supplier, bool>>()))
+            .Returns(new Domain.Models.Supplier {Id = 1});
         ISupplierService sut = new SupplierService(unitOfWorkMocked.Object);
 
         // Act & Assert
@@ -57,7 +63,9 @@ public class SupplierServiceShould
     {
         // Arrange
         Mock<IUnitOfWork> unitOfWorkMocked = new();
-        unitOfWorkMocked.Setup(x => x.Suppliers.Get(It.IsAny<Func<Domain.Models.Supplier, bool>>())).Returns((Domain.Models.Supplier)null!);
+        unitOfWorkMocked
+            .Setup(x => x.Suppliers.Get(It.IsAny<Func<Domain.Models.Supplier, bool>>()))
+            .Returns((Domain.Models.Supplier)null!);
         ISupplierService sut = new SupplierService(unitOfWorkMocked.Object);
 
         // Act & Assert

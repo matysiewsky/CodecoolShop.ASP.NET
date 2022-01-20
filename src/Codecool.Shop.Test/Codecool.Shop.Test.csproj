@@ -19,8 +19,4 @@
       <ProjectReference Include="..\Codecool.Shop.ASP.NET\Codecool.Shop.ASP.NET.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Services" />
-    </ItemGroup>
-
 </Project>
