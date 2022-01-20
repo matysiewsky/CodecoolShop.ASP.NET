@@ -16,10 +16,10 @@ public class ProductService : IProductService
 
     public Product GetProduct(int productId)
         => UnitOfWork.Products.Get(x => x.Id == productId);
-    public IEnumerable<Product> GetProducts()
+    public IEnumerable<Product> GetAllProducts()
         => UnitOfWork.Products.GetAll();
 
-    public IEnumerable<ProductCategory> GetProductCategories()
+    public IEnumerable<ProductCategory> GetAllProductCategories()
         => UnitOfWork.Categories.GetAll();
 
     public IEnumerable<Product> GetProductsForCategory(int categoryId)

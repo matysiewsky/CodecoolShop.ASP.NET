@@ -32,9 +32,9 @@ public class HomeController : Controller
     {
         ProductsIndexViewModel productsIndexViewModel = new()
         {
-            Products = _productService.GetProducts(),
+            Products = _productService.GetAllProducts(),
             Suppliers = _supplierService.GetAllSuppliers(),
-            Categories = _productService.GetProductCategories(),
+            Categories = _productService.GetAllProductCategories(),
         };
 
         foreach (ProductCategory category in productsIndexViewModel.Categories)
