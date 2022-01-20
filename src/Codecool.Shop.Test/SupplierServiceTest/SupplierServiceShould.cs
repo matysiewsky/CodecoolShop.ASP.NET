@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using Codecool.Shop.ASP.NET.Service.Interfaces;
 using Codecool.Shop.ASP.NET.Service.Services;
 using Codecool.Shop.Domain.Models;
