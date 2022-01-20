@@ -35,7 +35,7 @@ public class CartService : ICartService
     }
     public Cart AddCart(string userId)
     {
-        Cart newCart = new Cart {UserId = userId};
+        Cart newCart = new() {UserId = userId};
 
         UnitOfWork.Carts.Add(newCart);
         UnitOfWork.Save();
@@ -49,7 +49,7 @@ public class CartService : ICartService
 
         if (cart == null)
         {
-            Cart newCart = new Cart {UserId = userId};
+            Cart newCart = new() {UserId = userId};
             cart = newCart;
 
             UnitOfWork.Carts.Add(newCart);

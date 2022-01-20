@@ -1,10 +1,7 @@
 using System;
-using Codecool.Shop.ASP.NET.Service.Interfaces;
-using Codecool.Shop.ASP.NET.Service.Services;
 using Codecool.Shop.Data.Infrastructure;
 using Codecool.Shop.Data.Infrastructure.Repository;
 using Codecool.Shop.Domain.Repositories.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -49,11 +46,7 @@ public static class ServicesExtensions
     }
 
     public static void ConfigureUnitOfWork(this IServiceCollection services)
-        => services.AddTransient<IUnitOfWork, UnitOfWork>(s
-            => new UnitOfWork()
-                {
-                    DbContext = s.GetRequiredService<ShopDbContext>()
-                });
+        => services.AddTransient<IUnitOfWork, UnitOfWork>();
 
 
     // public static void ConfigureAppServices(this IServiceCollection services)

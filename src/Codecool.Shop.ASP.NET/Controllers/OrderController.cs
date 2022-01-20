@@ -24,7 +24,7 @@ public class OrderController : Controller
     public IActionResult CompletingOrderData()
     {
         string userId = Request.Cookies["userId"];
-        OrderViewModel orderViewModel = new OrderViewModel
+        OrderViewModel orderViewModel = new()
         {
             Order = new Order
             {
@@ -83,7 +83,7 @@ public class OrderController : Controller
     public IActionResult CompletingOrderPayment(OrderViewModel viewModel)
     {
         string userId = Request.Cookies["userId"];
-        OrderViewModel orderViewModel = new OrderViewModel
+        OrderViewModel orderViewModel = new()
         {
             Order = _orderService.GetOrder(userId),
             ValidatorClientModel = _clientService.GetClient(userId),

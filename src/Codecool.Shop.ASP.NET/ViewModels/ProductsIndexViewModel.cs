@@ -10,9 +10,7 @@ namespace Codecool.Shop.ASP.NET.ViewModels
         public IEnumerable<Supplier> Suppliers { get; set; }
         public int ItemsInCart { get; set; }
 
-        public Dictionary<ProductCategory, IEnumerable<Product>> ProductsByCategories { get; set; } =
-            new Dictionary<ProductCategory, IEnumerable<Product>>();
-        public Dictionary<Supplier, IEnumerable<Product>> ProductsBySuppliers { get; set; } =
-            new Dictionary<Supplier, IEnumerable<Product>>();
+        public Dictionary<ProductCategory, IEnumerable<Product>> ProductsByCategories { get; set; } = new();
+        public Dictionary<Supplier, IEnumerable<Product>> ProductsBySuppliers { get; set; } = new();
     }
 }

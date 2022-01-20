@@ -11,25 +11,25 @@ public class ShopDbContext: IdentityDbContext<IdentityUser>
     {
     }
 
-    public DbSet<Product> Products { get; set; }
-    public DbSet<ProductCategory> Categories { get; set; }
-    public DbSet<Supplier> Suppliers { get; set; }
-    public DbSet<Cart> Carts { get; set; }
-    public DbSet<CartItem> CartItems {get; set;}
-    public DbSet<Order> Orders { get; set; }
-    public DbSet<Client> Clients { get; set; }
-
+    // public DbSet<Product> Products { get; set; }
+    // public DbSet<ProductCategory> Categories { get; set; }
+    // public DbSet<Supplier> Suppliers { get; set; }
+    // public DbSet<Cart> Carts { get; set; }
+    // public DbSet<CartItem> CartItems {get; set;}
+    // public DbSet<Order> Orders { get; set; }
+    // public DbSet<Client> Clients { get; set; }
+    //
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
 
-        Supplier lenovo = new Supplier
+        Supplier lenovo = new()
         {
             Id = 1,
             Name = "Amazon",
             Description = "Digital content and services"
         };
-        Supplier amazon = new Supplier
+        Supplier amazon = new()
         {
             Id = 2,
             Name = "Lenovo",
@@ -39,7 +39,7 @@ public class ShopDbContext: IdentityDbContext<IdentityUser>
             lenovo, amazon
         );
 
-        ProductCategory tablet = new ProductCategory
+        ProductCategory tablet = new()
         {
             Id = 1,
             Name = "tablet",
@@ -48,7 +48,7 @@ public class ShopDbContext: IdentityDbContext<IdentityUser>
                 "A tablet computer, commonly shortened to tablet, is a thin, flat mobile computer with a touchscreen display."
         };
 
-        ProductCategory smartphone = new ProductCategory
+        ProductCategory smartphone = new()
         {
             Id = 2,
             Name = "smartphone",

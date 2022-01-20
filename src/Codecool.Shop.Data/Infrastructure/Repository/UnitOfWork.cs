@@ -6,7 +6,11 @@ namespace Codecool.Shop.Data.Infrastructure.Repository;
 
 public class UnitOfWork: IUnitOfWork
 {
-    public ShopDbContext DbContext { private get; init; }
+    private ShopDbContext DbContext { get; }
+
+    public UnitOfWork(ShopDbContext dbContext)
+        => DbContext = dbContext;
+
 
     public IGenericDbRepository<ProductCategory> Categories
         => GenericDbRepoFactory<ProductCategory>(DbContext);

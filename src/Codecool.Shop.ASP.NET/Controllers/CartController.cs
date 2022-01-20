@@ -32,7 +32,7 @@ public class CartController : Controller
 
         if (!existingUser) Response.Cookies.Append("userId", userId);
 
-        CartViewModel cartViewModel = new CartViewModel
+        CartViewModel cartViewModel = new()
         {
             Cart = _cartService.GetCart(userId) ?? _cartService.AddCart(userId),
         };

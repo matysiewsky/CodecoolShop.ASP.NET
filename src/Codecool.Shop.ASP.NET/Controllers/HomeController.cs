@@ -30,7 +30,7 @@ public class HomeController : Controller
 
     public ViewResult Products()
     {
-        ProductsIndexViewModel productsIndexViewModel = new ProductsIndexViewModel
+        ProductsIndexViewModel productsIndexViewModel = new()
         {
             Products = _productService.GetProducts(),
             Suppliers = _supplierService.GetAllSuppliers(),
