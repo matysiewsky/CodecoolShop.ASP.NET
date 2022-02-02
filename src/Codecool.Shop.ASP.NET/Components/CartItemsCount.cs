@@ -1,4 +1,7 @@
 using Codecool.Shop.ASP.NET.Service.Interfaces;
+using Codecool.Shop.ASP.NET.Service.Services;
+using Codecool.Shop.Domain.Repositories.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Codecool.Shop.ASP.NET.Components;

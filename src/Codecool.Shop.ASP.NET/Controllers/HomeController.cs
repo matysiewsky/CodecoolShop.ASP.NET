@@ -13,19 +13,17 @@ namespace Codecool.Shop.ASP.NET.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
     private readonly IProductService _productService;
     private readonly ISupplierService _supplierService;
     private readonly ICartService _cartService;
 
-    public HomeController(ILogger<HomeController> logger, IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor)
-    {
-        _logger = logger;
-        _supplierService = new SupplierService(unitOfWork);
-        _productService = new ProductService(unitOfWork);
-        _cartService = new CartService(unitOfWork, httpContextAccessor);
-    }
-
+    public HomeController(IProductService productService, ISupplierService supplierService,
+        ICartService cartService)
+        {
+            _productService = productService;
+            _supplierService = supplierService;
+            _cartService = cartService;
+        }
 
 
     public ViewResult Products()

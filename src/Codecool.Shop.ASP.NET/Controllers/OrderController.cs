@@ -14,10 +14,11 @@ public class OrderController : Controller
     private readonly IOrderService _orderService;
     private readonly IClientService _clientService;
 
-    public OrderController(IUnitOfWork unitOfWork)
+    public OrderController(IOrderService orderService,
+                             IClientService clientService)
     {
-        _orderService = new OrderService(unitOfWork);
-        _clientService = new ClientService(unitOfWork);
+        _orderService = orderService;
+        _clientService = clientService;
     }
 
     [HttpGet]

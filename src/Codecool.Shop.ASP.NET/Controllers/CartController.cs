@@ -11,15 +11,13 @@ namespace Codecool.Shop.ASP.NET.Controllers;
 
 public class CartController : Controller
 {
-    private readonly ILogger<CartController> _logger;
     private readonly IProductService _productService;
     private readonly ICartService _cartService;
 
-    public CartController(ILogger<CartController> logger, IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor)
+    public CartController(IProductService productService, ICartService cartService)
     {
-        _logger = logger;
-        _productService = new ProductService(unitOfWork);
-        _cartService = new CartService(unitOfWork, httpContextAccessor);
+        _productService = productService;
+        _cartService = cartService;
     }
 
 
