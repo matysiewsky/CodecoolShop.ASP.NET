@@ -13,7 +13,7 @@
     {
         <p class="lead">Unfortunately, I do not contain any item yet. Let's do something about it!</p>
         <hr class="my-4">
-        <a class="btn btn-primary btn-lg" onclick="location.href='@Url.Action("Products","Home")'" role="button">Take me shopping!</a>
+        <a role="button" class="btn btn-primary btn-lg" asp-controller="Home" asp-action="Products">Take me shopping!</a>
 
     }
     else
@@ -23,29 +23,31 @@
 
         <div class="container mt-5 mb-5">
             <div class="d-flex justify-content-center row">
-            <div class="col-md-8">
-                @foreach (CartItem element in Model.CartItems)
-                {
-                    <div class="d-flex flex-row justify-content-between align-items-center p-2 bg-white mt-4 px-3 rounded">
-                    <div class="mr-1"><img class="rounded" src="@Url.Content($"~/img/{element.Product.Name}.jpg")" style="height: 50%; width: 50%; align-self: center; padding-top: 10px;"></div>
-                    <div class="d-flex flex-column align-items-center product-details"><span class="font-weight-bold">@element.Product.Name.Capitalize()</span>
-                    </div>
-                    <div class="d-flex flex-row align-items-center qty"><a onclick="location.href='@Url.Action("SubtractQuantity", "Cart", new { cartItemId = element.Id})'"><i class="fa fa-minus text-danger"></i></a>
-                    <h5 class="text-grey mt-1 mr-1 ml-1">@element.Quantity</h5><a onclick="location.href='@Url.Action("AddQuantity", "Cart", new { cartItemId = element.Id})'"><i class="fa fa-plus text-success"></i></a>
-                    </div>
-                    <div>
-                        <h5 class="text-grey">@((element.Product.DefaultPrice * element.Quantity) + element.Product.Currency)</h5>
-                    </div>
-                        <div class="d-flex align-items-center"><a onclick="location.href='@Url.Action("DeleteCartItem", "Cart", new { cartItemId = element.Id})'"><i class="fa fa-trash mb-1 text-danger"></i></a></div>
-                    </div>
-                }
+                <div class="col-md-8">
+                    @foreach (CartItem element in Model.CartItems)
+                    {
+                        <div class="d-flex flex-row justify-content-between align-items-center p-2 bg-white mt-4 px-3 rounded">
+                            <div class="mr-1"><img class="rounded" src="@Url.Content($"~/img/{element.Product.Name}.jpg")" style="height: 50%; width: 50%; align-self: center; padding-top: 10px;"></div>
+                            <div class="d-flex flex-column align-items-center product-details">
+                                <span class="font-weight-bold">@element.Product.Name.Capitalize()</span>
+                            </div>
+                            <div class="d-flex flex-row align-items-center qty">
+                                <a asp-controller="Cart" asp-action="SubtractQuantity" asp-route-cartItemId="@element.Id"><i class="fa fa-minus text-danger"></i></a>
+                                <h5 class="text-grey mt-1 mr-1 ml-1">@element.Quantity</h5><a asp-controller="Cart" asp-action="AddQuantity" asp-route-cartItemId="@element.Id"><i class="fa fa-plus text-success"></i></a>
+                            </div>
+                            <div>
+                                <h5 class="text-grey">@((element.Product.DefaultPrice * element.Quantity) + element.Product.Currency)</h5>
+                            </div>
+                            <div class="d-flex align-items-center"><a asp-controller="Cart" asp-action="DeleteCartItem" asp-route-cartItemId="@element.Id"><i class="fa fa-trash mb-1 text-danger"></i></a></div>
+                        </div>
+                    }
 
 
-                <div class="d-flex flex-row align-items-center mt-3 p-2 bg-white rounded"><button class="btn btn-warning btn-block btn-lg ml-2 pay-button" type="button" onclick="location.href='@Url.Action("CompletingOrderData", "Order", new {userId = Model.Cart.UserId})'">Proceed to Pay!</button></div>
-                <div class="d-flex flex-row align-items-center mt-3 p-2 bg-white rounded"><button class="btn btn-primary btn-block btn-lg ml-2" type="button" onclick="location.href='@Url.Action("Products","Home")'" role="button">Continue shopping!</button></div>
+                    <div class="d-flex flex-row align-items-center mt-3 p-2 bg-white rounded"><button class="btn btn-warning btn-block btn-lg ml-2 pay-button" type="button" asp-controller="Order" asp-action="CompletingOrderData" asp-route-userId="@Model.Cart.UserId">Proceed to Pay!</button></div>
+                    <div class="d-flex flex-row align-items-center mt-3 p-2 bg-white rounded"><button class="btn btn-primary btn-block btn-lg ml-2" type="button" asp-controller="Home" asp-action="Products">Continue shopping!</button></div>
 
 
-            </div>
+                </div>
             </div>
         </div>
     }
