@@ -11,14 +11,14 @@ public class ShopDbContext: IdentityDbContext<IdentityUser>
     {
     }
 
-    // public DbSet<Product> Products { get; set; }
-    // public DbSet<ProductCategory> Categories { get; set; }
-    // public DbSet<Supplier> Suppliers { get; set; }
-    // public DbSet<Cart> Carts { get; set; }
-    // public DbSet<CartItem> CartItems {get; set;}
-    // public DbSet<Order> Orders { get; set; }
-    // public DbSet<Client> Clients { get; set; }
-    //
+    public DbSet<Product> Products { get; set; }
+    public DbSet<ProductCategory> Categories { get; set; }
+    public DbSet<Supplier> Suppliers { get; set; }
+    public DbSet<Cart> Carts { get; set; }
+    public DbSet<CartItem> CartItems { get; set; }
+    public DbSet<Order> Orders { get; set; }
+    public DbSet<Client> Clients { get; set; }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
