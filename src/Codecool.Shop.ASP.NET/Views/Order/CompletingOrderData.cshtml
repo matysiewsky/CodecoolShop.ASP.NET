@@ -1,5 +1,4 @@
-@using Codecool.Shop.Domain.Models
-@model Codecool.Shop.ASP.NET.ViewModels.OrderViewModel
+@model OrderViewModel
 
 @{
     ViewBag.Title = "Shipping Info";
@@ -79,3 +78,8 @@
           </form>
         </div>
       </div>
+     
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}
